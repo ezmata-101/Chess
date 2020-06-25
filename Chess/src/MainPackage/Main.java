@@ -21,6 +21,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
         mainPane = chessBoard.createMainPane();
+        ChessItem chessItem = new ChessItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.BISHOP);
         primaryStage.setTitle("Chess");
         primaryStage.setScene(new Scene(mainPane));
         primaryStage.show();

@@ -54,7 +54,7 @@ public class ChessItem {
             System.out.println("IMAGE NOT FOUND!");
             return null;
         }
-        int width = (int)image.getHeight();
+        int width = (int)image.getWidth();
         int height = (int)image.getHeight();
 
         WritableImage writableImage = new WritableImage(width, height);
@@ -77,6 +77,9 @@ public class ChessItem {
         imageView.setFitWidth(60);
         imageView.setFitHeight(60);
 
+        return imageView;
+    }
+    public ImageView getImageView(){
         return imageView;
     }
 }
