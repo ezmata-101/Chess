@@ -19,6 +19,7 @@ public class ChessBoard {
     private ImageView[][] images = new ImageView[8][8];
     private int lastX =-1, lastY=-1, lastIndexRow, lastIndexCol;
     private boolean isSelected = false;
+    private boolean lastMove = false;
 
     public ChessBoard(){
     }
@@ -89,9 +90,10 @@ public class ChessBoard {
     }
 
     private void onStackPaneSelected(int i, int j){
-        if((lastX != -1 && lastY != -1) || (lastX == i && lastY == j)){
+        if((lastX != -1 && lastY != -1) || (lastX == i && lastY == j) || lastMove){
             if((lastX + lastY) % 2 == 0)panes[lastX][lastY].setStyle("-fx-background-color: #EEEED2");
             else panes[lastX][lastY].setStyle("-fx-background-color: #769655");
+            lastMove = false;
         }
         if(lastX == i && lastY == j){
             isSelected = false;
@@ -120,5 +122,9 @@ public class ChessBoard {
     private void moveItem(int fromX, int fromY, int toX, int toY) {
         panes[fromX][fromY].getChildren().clear();
         placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol);
+        panes[toX][toY].setStyle("-fx-background-color: #F6F782");
+        lastMove = true;
+        lastX = toX;
+        lastY = toY;
     }
 }
