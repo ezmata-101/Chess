@@ -20,9 +20,9 @@ public class ChessBoard {
     private int lastX =-1, lastY=-1, lastIndexRow, lastIndexCol;
     private boolean isSelected = false;
     private boolean lastMove = false;
-    private int[][] itemcolor=new int[8][8];
-    private int[][] itemtype=new int[8][8];
-
+    private int[][] itemcolor=new int[8][8];//Eita hoilo prottekta position e jodi element thake taile ki color er element tar jonno
+    private int[][] itemtype=new int[8][8];//Eita hoilo oi element ta ki bishop naki Knight naki king na queen eigula bujhar jonno
+    //Upoer 2 tar jonnoi jodi kono position e kisu na thake taile default value -1 pore set kora hoise
 
     public ChessBoard(){
     }
@@ -35,11 +35,9 @@ public class ChessBoard {
                 int finalI = i;
                 int finalJ = j;
 
+                itemcolor[i][j]=-1;//Eije default value
+                itemtype[i][j]=-1;//Eitar o default value
 
-                int x=(i*8)+j+1;
-
-                itemcolor[i][j]=-1;
-                itemtype[i][j]=-1;
                 labels[i][j] = new Label("-1,-1");
                 labels[i][j].setStyle("-fx-font-size: 8px");
                 images[i][j] = new ImageView();
@@ -63,6 +61,9 @@ public class ChessBoard {
         mainPane.getChildren().add(vBox);
         return mainPane;
     }
+
+
+    //Ei function tar last e ami extra ekta variable add korsi jeita hoilo itemtype,eita tmr code e chilo na.
     public void distributeItems(int order){
         for(int i=0; i<8; i++){
             initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.PAWN, 0, 8+i, 6, i,6);
@@ -91,9 +92,10 @@ public class ChessBoard {
         panes[row][col].getChildren().clear();
         panes[row][col].getChildren().add(item.getImageView());
         item.setPosition(row, col);
-        itemcolor[row][col]=item.color;
-        itemtype[row][col]=type;
+        itemcolor[row][col]=item.color;//Color set kortesi
+        itemtype[row][col]=type;//Items er type set kortesi
     }
+
     public void initiateNewItem(int color, ChessItem.CHESS_ITEM type, int indexRow, int indexCol, int posRow, int posCol,int itemtype){
         chessItems[indexRow][indexCol] = new ChessItem(color, type);
         placeItem(chessItems[indexRow][indexCol], posRow, posCol, indexRow, indexCol,itemtype);
@@ -113,13 +115,23 @@ public class ChessBoard {
         }
         if(isSelected){
             //moveItem(lastX, lastY, i, j);
-            ChessItem item=chessItems[lastIndexRow][lastIndexCol];
-            int x=item.getPosX();
+            ChessItem item=chessItems[lastIndexRow][lastIndexCol];//Jei element ta selected hoilo oita item e rakhlam
+            int x=item.getPosX();//Itar x,y,coordinate store korlam
             int y=item.getPosY();
-            System.out.println(x+ " "+ y +" " +item.color+ " "+ i + " "+ j);
+    //        System.out.println(x+ " "+ y +" " +item.color+ " "+ i + " "+ j);
+
+            //Jodi element ta Knight hoy taile eita run hbe
             if(item.type.getFileName()=="knight"){
                 Knight knight=new Knight(x,y,itemcolor,itemtype,item.color,i,j);
                 if(knight.moveKnight()){
+                    moveItem(lastX,lastY,i,j);
+                }
+            }
+
+            //R jodi bishop hoy taile eita
+            if(item.type.getFileName()=="bishop"){
+                Bishop bishop=new Bishop(x,y,itemcolor,itemtype,item.color,i,j);
+                if(bishop.moveBishop()){
                     moveItem(lastX,lastY,i,j);
                 }
             }
@@ -141,9 +153,8 @@ public class ChessBoard {
 
     public void moveItem(int fromX, int fromY, int toX, int toY) {
         panes[fromX][fromY].getChildren().clear();
-        //boardposition[(fromX*8)+fromY+1]=false;
-        itemcolor[fromX][fromY]=-1;
-        itemtype[fromX][fromY]=-1;
+        itemcolor[fromX][fromY]=-1;//Jeheto ei jayga ta khali hoia jabe tai value -1 korlam
+        itemtype[fromX][fromY]=-1;//Same kahini eitar jonno o
         placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
         panes[toX][toY].setStyle("-fx-background-color: #F6F782");
         lastMove = true;
