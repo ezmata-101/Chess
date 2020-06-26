@@ -27,8 +27,8 @@ public class ChessItem {
     }
     private ImageView imageView;
     private int posX, posY;
-    private int color;
-    private CHESS_ITEM type;
+    public int color;
+    public CHESS_ITEM type;
 
     public ChessItem(int color, CHESS_ITEM type){
         this.color = color;
@@ -46,6 +46,15 @@ public class ChessItem {
         posY = column;
         posX = row;
     }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
     public ImageView createImageView(){
         String filePath = SOURCE_PATH;
         if(color == BLACK) filePath+="Black\\";
