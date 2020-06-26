@@ -25,10 +25,10 @@ public class ChessItem {
             return fileName;
         }
     }
-    ImageView imageView;
-    int posX, posY;
-    int color;
-    CHESS_ITEM type;
+    private ImageView imageView;
+    private int posX, posY;
+    private int color;
+    private CHESS_ITEM type;
 
     public ChessItem(int color, CHESS_ITEM type){
         this.color = color;
@@ -41,6 +41,10 @@ public class ChessItem {
         posX = row;
         posY = col;
         createImageView();
+    }
+    public void setPosition(int row, int column){
+        posY = column;
+        posX = row;
     }
     public ImageView createImageView(){
         String filePath = SOURCE_PATH;
