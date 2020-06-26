@@ -17,6 +17,8 @@ public class ChessBoard {
     private HBox[] hBoxes = new HBox[8];
     private ChessItem[][] chessItems = new ChessItem[2][16];
     private ImageView[][] images = new ImageView[8][8];
+    private int lastX =-1, lastY=-1, lastIndexRow, lastIndexCol;
+    private boolean isSelected = false;
 
     public ChessBoard(){
     }
@@ -87,6 +89,36 @@ public class ChessBoard {
     }
 
     private void onStackPaneSelected(int i, int j){
+        if((lastX != -1 && lastY != -1) || (lastX == i && lastY == j)){
+            if((lastX + lastY) % 2 == 0)panes[lastX][lastY].setStyle("-fx-background-color: #EEEED2");
+            else panes[lastX][lastY].setStyle("-fx-background-color: #769655");
+        }
+        if(lastX == i && lastY == j){
+            isSelected = false;
+            lastY = -1;
+            lastX = -1;
+            return;
+        }
+        if(isSelected){
+            moveItem(lastX, lastY, i, j);
+            isSelected = false;
+            return;
+        }
+        else if(!isSelected && !labels[i][j].getText().equals("-1,-1")) {
+            isSelected = true;
+            String[] strings = labels[i][j].getText().split(",");
+            lastIndexRow = Integer.parseInt(strings[0]);
+            lastIndexCol = Integer.parseInt(strings[1]);
+            System.out.println("Selected!");
+        }
+        panes[i][j].setStyle("-fx-background-color: #BACA45");
         //System.out.println(i+","+j);
+        lastX = i;
+        lastY = j;
+    }
+
+    private void moveItem(int fromX, int fromY, int toX, int toY) {
+        panes[fromX][fromY].getChildren().clear();
+        placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol);
     }
 }
