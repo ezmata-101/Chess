@@ -15,8 +15,7 @@ public class Main extends Application {
 
     private Pane mainPane = new Pane();
     private ChessBoard chessBoard = new ChessBoard();
-
-
+    
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));

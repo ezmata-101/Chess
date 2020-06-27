@@ -57,6 +57,14 @@ public class Rook {
                 return false;
             }
             else if(posX==toX){
+                if(Math.abs(getdifference)==1){
+                    if(itemcolor[toX][toY]!=color){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
+                }
                 for(int i=posY-1;posY>toY;posY--){
                     if(itemtype[posX][i]!=-1){
                         return false;

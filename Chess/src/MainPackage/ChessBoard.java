@@ -141,6 +141,12 @@ public class ChessBoard {
                     moveItem(lastX,lastY,i,j);
                 }
             }
+            if(item.type.getFileName()=="queen"){
+                Queen queen=new Queen(x,y,itemcolor,itemtype,item.color,i,j);
+                if(queen.moveQueen()){
+                    moveItem(lastX,lastY,i,j);
+                }
+            }
             isSelected = false;
             return;
         }
