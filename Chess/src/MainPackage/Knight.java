@@ -25,6 +25,18 @@ public class Knight{
         System.out.println(posX +" "+posY +" "+color +" "+toX +" "+toY+" "+positionOfKnight +" "+positionToGo);
         int coordinates;
         for(int x:movableCoordinates){
+            if(posY==0 && (x==-17 || x==-10 || x==6 || x==15)){
+                continue;
+            }
+            else if(posY==1 && (x==-10 || x==6)){
+                continue;
+            }
+            else if(posY==6 && (x==-6 || x==10)){
+                continue;
+            }
+            else if(posY==7 && (x==-15 || x==-6 || x==10 || x==17)){
+                continue;
+            }
             coordinates=positionOfKnight+x;
             System.out.println("jaite chaitese :"+ coordinates +" jaite hbe: "+ " "+ positionToGo);
             if(coordinates<1 || coordinates>64){ //Coordinate valid naki check kortesi
