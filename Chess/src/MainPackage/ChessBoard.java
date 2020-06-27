@@ -94,6 +94,7 @@ public class ChessBoard {
         item.setPosition(row, col);
         itemcolor[row][col]=item.color;//Color set kortesi
         itemtype[row][col]=type;//Items er type set kortesi
+        System.out.println("Type after replace: "+itemtype[row][col]);
     }
 
     public void initiateNewItem(int color, ChessItem.CHESS_ITEM type, int indexRow, int indexCol, int posRow, int posCol,int itemtype){
@@ -147,6 +148,12 @@ public class ChessBoard {
                     moveItem(lastX,lastY,i,j);
                 }
             }
+            if(item.type.getFileName()=="pawn"){
+                Pawn pawn=new Pawn(x,y,itemcolor,itemtype,item.color,i,j);
+                if(pawn.movePawn()){
+                    moveItem(lastX,lastY,i,j);
+                }
+            }
             isSelected = false;
             return;
         }
@@ -165,9 +172,9 @@ public class ChessBoard {
 
     public void moveItem(int fromX, int fromY, int toX, int toY) {
         panes[fromX][fromY].getChildren().clear();
+        placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
         itemcolor[fromX][fromY]=-1;//Jeheto ei jayga ta khali hoia jabe tai value -1 korlam
         itemtype[fromX][fromY]=-1;//Same kahini eitar jonno o
-        placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
         panes[toX][toY].setStyle("-fx-background-color: #F6F782");
         lastMove = true;
         lastX = toX;
