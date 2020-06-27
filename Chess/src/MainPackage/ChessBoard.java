@@ -7,6 +7,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
+import java.util.Random;
+
 
 public class ChessBoard {
     private Pane mainPane = new Pane();
@@ -24,9 +26,8 @@ public class ChessBoard {
     private int[][] itemtype=new int[8][8];//Eita hoilo oi element ta ki bishop naki Knight naki king na queen eigula bujhar jonno
     //Upoer 2 tar jonnoi jodi kono position e kisu na thake taile default value -1 pore set kora hoise
 
-    public ChessBoard(){
-    }
 
+    public ChessBoard(){}
 
     public Pane createMainPane() {
         for(int i=0; i<8; i++){
@@ -151,6 +152,11 @@ public class ChessBoard {
             if(item.type.getFileName()=="pawn"){
                 Pawn pawn=new Pawn(x,y,itemcolor,itemtype,item.color,i,j);
                 if(pawn.movePawn()){
+                    moveItem(lastX,lastY,i,j);
+                }
+            }if(item.type.getFileName()=="king"){
+                King king=new King(x,y,itemcolor,itemtype,item.color,i,j);
+                if(king.moveKing()){
                     moveItem(lastX,lastY,i,j);
                 }
             }
