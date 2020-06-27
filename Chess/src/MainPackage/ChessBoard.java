@@ -135,6 +135,12 @@ public class ChessBoard {
                     moveItem(lastX,lastY,i,j);
                 }
             }
+            if(item.type.getFileName()=="rook"){
+                Rook rook=new Rook(x,y,itemcolor,itemtype,item.color,i,j);
+                if(rook.moveRook()){
+                    moveItem(lastX,lastY,i,j);
+                }
+            }
             isSelected = false;
             return;
         }
