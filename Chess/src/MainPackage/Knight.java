@@ -1,7 +1,5 @@
 package MainPackage;
 
-import javax.crypto.spec.PSource;
-
 public class Knight{
     private int[] movableCoordinates= {-17,-15,-10,-6,6,10,15,17};//Kono ekta Knight er position theke joto dike jaoa jay.Eita dekhay dibo ne
     private int posX,posY;
@@ -22,7 +20,6 @@ public class Knight{
     public boolean moveKnight(){
         positionOfKnight= (posX*8)+posY+1;//Knight ekhn jeikhane ase
         positionToGo=(toX*8)+toY+1;//Jeikhane jaite hbe
-        System.out.println(posX +" "+posY +" "+color +" "+toX +" "+toY+" "+positionOfKnight +" "+positionToGo);
         int coordinates;
         for(int x:movableCoordinates){
             if(posY==0 && (x==-17 || x==-10 || x==6 || x==15)){
@@ -38,9 +35,7 @@ public class Knight{
                 continue;
             }
             coordinates=positionOfKnight+x;
-            System.out.println("jaite chaitese :"+ coordinates +" jaite hbe: "+ " "+ positionToGo);
             if(coordinates<1 || coordinates>64){ //Coordinate valid naki check kortesi
-                //System.out.println("Doing continue "+ " "+ coordinates);
                 continue;
             }
             else if(coordinates==positionToGo){

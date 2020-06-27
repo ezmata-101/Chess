@@ -24,7 +24,6 @@ public class Bishop {
     public boolean moveBishop(){
         positionOfBishop= (posX*8)+posY+1;
         positionToGo=(toX*8)+toY+1;
-        System.out.println(posX +" "+posY +" "+color +" "+toX +" "+toY+" "+positionOfBishop +" "+positionToGo);
         int getdifference=positionToGo-positionOfBishop;
         if(positionToGo<positionOfBishop) {
             if (Math.abs(getdifference) % 9 == 0) {

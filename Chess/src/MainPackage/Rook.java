@@ -19,7 +19,6 @@ public class Rook {
     public boolean moveRook(){
         positionOfRook= (posX*8)+posY+1;
         positionToGo=(toX*8)+toY+1;
-        System.out.println(posX +" "+posY +" "+color +" "+toX +" "+toY+" "+positionOfRook +" "+positionToGo);
         int getdifference=positionToGo-positionOfRook;
         if(positionToGo<positionOfRook) {
             if (Math.abs(getdifference) % 8 == 0) {

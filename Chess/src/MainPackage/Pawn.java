@@ -26,7 +26,6 @@ public class Pawn {
         }
         positionOfPawn= (posX*8)+posY+1;
         positionToGo=(toX*8)+toY+1;
-        System.out.println(posX +" "+posY +" "+color +" "+toX +" "+toY+" "+positionOfPawn +" "+positionToGo);
         int getdifference=positionToGo-positionOfPawn;
         int coordinates;
         if(Math.abs(getdifference)==8){
@@ -40,13 +39,10 @@ public class Pawn {
                 coordinates=positionOfPawn+(8*multiply);
                 int x=(coordinates-1)/8;
                 int y=(coordinates-1)%8;
-                System.out.println("x: "+x +" y: "+y +" itemtype: "+itemtype[x][y]);
                 if(itemtype[x][y]!=-1){
-                    System.out.println("Majh e ekta ase..so jaite parbe na");
                     return false;
                 }
                 else {
-                    System.out.println("Majh e keo silo na ..tai eikhane ashche");
                     coordinates=coordinates+(8*multiply);
                     if(checkforeight(coordinates,positionToGo)){
                         return true;
@@ -96,9 +92,6 @@ public class Pawn {
             if(itemtype[toX][toY]==-1){
                 return true;
             }
-            /*else if(itemcolor[toX][toY]!=color){
-                return false;
-            }*/
             else {
                 return false;
             }

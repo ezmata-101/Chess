@@ -137,24 +137,30 @@ public class ChessBoard {
                     moveItem(lastX,lastY,i,j);
                 }
             }
+
+            /**For rook**/
             if(item.type.getFileName()=="rook"){
                 Rook rook=new Rook(x,y,itemcolor,itemtype,item.color,i,j);
                 if(rook.moveRook()){
                     moveItem(lastX,lastY,i,j);
                 }
             }
+            /**For queen**/
             if(item.type.getFileName()=="queen"){
                 Queen queen=new Queen(x,y,itemcolor,itemtype,item.color,i,j);
                 if(queen.moveQueen()){
                     moveItem(lastX,lastY,i,j);
                 }
             }
+            /**For pawn**/
             if(item.type.getFileName()=="pawn"){
                 Pawn pawn=new Pawn(x,y,itemcolor,itemtype,item.color,i,j);
                 if(pawn.movePawn()){
                     moveItem(lastX,lastY,i,j);
                 }
-            }if(item.type.getFileName()=="king"){
+            }
+            /**For king**/
+            if(item.type.getFileName()=="king"){
                 King king=new King(x,y,itemcolor,itemtype,item.color,i,j);
                 if(king.moveKing()){
                     moveItem(lastX,lastY,i,j);
