@@ -22,8 +22,8 @@ public class ChessBoard {
     private int lastX =-1, lastY=-1, lastIndexRow, lastIndexCol;
     private boolean isSelected = false;
     private boolean lastMove = false;
-    private int[][] itemcolor=new int[8][8];//Eita hoilo prottekta position e jodi element thake taile ki color er element tar jonno
-    private int[][] itemtype=new int[8][8];//Eita hoilo oi element ta ki bishop naki Knight naki king na queen eigula bujhar jonno
+    public int[][] itemcolor=new int[8][8];//Eita hoilo prottekta position e jodi element thake taile ki color er element tar jonno
+    public int[][] itemtype=new int[8][8];//Eita hoilo oi element ta ki bishop naki Knight naki king na queen eigula bujhar jonno
     //Upoer 2 tar jonnoi jodi kono position e kisu na thake taile default value -1 pore set kora hoise
 
 
@@ -124,7 +124,7 @@ public class ChessBoard {
 
             //Jodi element ta Knight hoy taile eita run hbe
             if(item.type.getFileName()=="knight"){
-                Knight knight=new Knight(x,y,itemcolor,itemtype,item.color,i,j);
+                Knight knight=new Knight(x,y,this,item.color,i,j);
                 if(knight.moveKnight()){
                     moveItem(lastX,lastY,i,j);
                 }

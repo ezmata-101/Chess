@@ -64,7 +64,7 @@ public class Rook {
                         return false;
                     }
                 }
-                for(int i=posY-1;posY>toY;posY--){
+                for(int i=posY-1;i>toY;i--){
                     if(itemtype[posX][i]!=-1){
                         return false;
                     }
@@ -126,7 +126,7 @@ public class Rook {
                         return false;
                     }
                 }
-                for(int i=posY+1;posY<toY;posY++){
+                for(int i=posY+1;i<toY;i++){
                     if(itemtype[posX][i]!=-1){
                         return false;
                     }

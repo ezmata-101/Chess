@@ -25,7 +25,7 @@ public class King {
             if(posY==0 && (x==-9 || x==-1 ||x==7)){
                 continue;
             }
-            if(posY==7 && (x==-7 || x==1 || x==9)){
+            else if(posY==7 && (x==-7 || x==1 || x==9)){
                 continue;
             }
             coordinates=positionOfKing+x;

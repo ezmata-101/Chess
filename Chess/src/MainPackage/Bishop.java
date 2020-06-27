@@ -63,7 +63,6 @@ public class Bishop {
                 }
                 return false;
             }
-
             else if (Math.abs(getdifference) % 7 == 0) {
                 int coordinates;
                 if(posY==7){

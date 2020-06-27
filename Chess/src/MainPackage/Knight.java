@@ -8,11 +8,11 @@ public class Knight{
     int color,toX,toY;
     int positionOfKnight;
     int positionToGo;
-    Knight(int x, int y, int[][] itemcolor,int[][] itemtype,int color,int i,int j){
+    Knight(int x, int y, ChessBoard board,int color,int i,int j){
         this.posX=x;
         this.posY=y;
-        this.itemcolor=itemcolor;
-        this.itemtype=itemtype;
+        this.itemcolor=board.itemcolor;
+        this.itemtype=board.itemtype;
         this.color=color;
         this.toX=i;
         this.toY=j;
