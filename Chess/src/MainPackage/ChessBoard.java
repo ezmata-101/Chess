@@ -189,7 +189,8 @@ public class ChessBoard {
     private void colorPossibleMoves(ChessItem ci, boolean colorOrDiscolor) {
         int posX = ci.getPosX();
         int posY = ci.getPosY();
-        if(ci.getType().getFileName().equals("knight")){
+        String type = ci.getType().getFileName();
+        if(type.equals("knight")){
             int ara1[] = {1,1,2,2,-1,-1,-2,-2};
             int ara2[] = {2, -2, 1, -1};
             for(int i=0; i<2; i++){
@@ -201,22 +202,51 @@ public class ChessBoard {
             }
         }
 
+        if(type.equals("bishop")){
+            for(int i=1; ;i++){
+                int possibleX = posX + i;
+                int possibleY = posY + i;
+                if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
+            }
+            for(int i=1; ;i++){
+                int possibleX = posX + i;
+                int possibleY = posY - i;
+                if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
+            }
+            for(int i=1; ;i++){
+                int possibleX = posX - i;
+                int possibleY = posY + i;
+                if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
+            }
+            for(int i=1; ;i++){
+                int possibleX = posX - i;
+                int possibleY = posY - i;
+                if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
+            }
+        }
+
         lastMovedItem = ci;
     }
 
-    private void checkAndColorPossibleMove(ChessItem ci, int toX, int toY, boolean color){
+    private boolean checkAndColorPossibleMove(ChessItem ci, int toX, int toY, boolean color){
 
-        if(toX < 0 || toX >7 || toY<0 || toY > 7) return;
+        if(toX < 0 || toX >7 || toY<0 || toY > 7) return false;
         if(!color){
             removeColor(toX,toY);
-            return;
+            return true;
         }
         String[] ss = labels[toX][toY].getText().split(",");
         int inToX = Integer.parseInt(ss[0]);
         int inToY = Integer.parseInt(ss[1]);
-        if(inToX == -1 || inToY == -1) colorPane(toX, toY, COLOR.POSSIBLE_NORMAL);
-        else if(ci.getColor() != chessItems[inToX][inToY].getColor()) colorPane(toX, toY, COLOR.POSSIBLE_ATTACK);
-
+        if(inToX == -1 || inToY == -1){
+            colorPane(toX, toY, COLOR.POSSIBLE_NORMAL);
+            return true;
+        }
+        else if(ci.getColor() != chessItems[inToX][inToY].getColor()){
+            colorPane(toX, toY, COLOR.POSSIBLE_ATTACK);
+            return false;
+        }
+        else return false;
     }
 
     enum COLOR{
