@@ -28,6 +28,7 @@ public class ChessItem {
     private ImageView imageView;
     private int posX, posY;
     public int color;
+
     public CHESS_ITEM type;
 
     public ChessItem(int color, CHESS_ITEM type){
@@ -35,6 +36,7 @@ public class ChessItem {
         this.type = type;
         createImageView();
     }
+
     public ChessItem(int color, CHESS_ITEM type, int row, int col){
         this.color = color;
         this.type = type;
@@ -46,7 +48,6 @@ public class ChessItem {
         posY = column;
         posX = row;
     }
-
     public int getPosX() {
         return posX;
     }
@@ -92,7 +93,16 @@ public class ChessItem {
 
         return imageView;
     }
+
     public ImageView getImageView(){
         return imageView;
+    }
+
+    public CHESS_ITEM getType() {
+        return type;
+    }
+
+    public int getColor() {
+        return color;
     }
 }

@@ -25,7 +25,7 @@ public class ChessBoard {
     public int[][] itemcolor=new int[8][8];//Eita hoilo prottekta position e jodi element thake taile ki color er element tar jonno
     public int[][] itemtype=new int[8][8];//Eita hoilo oi element ta ki bishop naki Knight naki king na queen eigula bujhar jonno
     //Upoer 2 tar jonnoi jodi kono position e kisu na thake taile default value -1 pore set kora hoise
-
+    private ChessItem lastMovedItem = null;
 
     public ChessBoard(){}
 
@@ -45,8 +45,7 @@ public class ChessBoard {
                 panes[i][j] = new Pane();
                 panes[i][j].setPrefHeight(60);
                 panes[i][j].setPrefWidth(60);
-                if((i+j)%2==0)panes[i][j].setStyle("-fx-background-color: #EEEED2");
-                else panes[i][j].setStyle("-fx-background-color: #769655");
+                removeColor(i, j);
                 panes[i][j].getChildren().add(images[i][j]);
 
                 stackPanes[i][j] = new StackPane();
@@ -89,13 +88,13 @@ public class ChessBoard {
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.KING, 1, 7, 7, 4,1);
     }
     private void placeItem(ChessItem item, int row, int col, int indexX, int indexY,int type){
-        labels[row][col].setText(indexX+","+indexY);
         panes[row][col].getChildren().clear();
+        labels[row][col].setText(indexX+","+indexY);
         panes[row][col].getChildren().add(item.getImageView());
         item.setPosition(row, col);
         itemcolor[row][col]=item.color;//Color set kortesi
         itemtype[row][col]=type;//Items er type set kortesi
-        System.out.println("Type after replace: "+itemtype[row][col]);
+        //System.out.println("Type after replace: "+itemtype[row][col]);
     }
 
     public void initiateNewItem(int color, ChessItem.CHESS_ITEM type, int indexRow, int indexCol, int posRow, int posCol,int itemtype){
@@ -104,9 +103,10 @@ public class ChessBoard {
     }
 
     private void onStackPaneSelected(int i, int j){
+        printBoard();
         if((lastX != -1 && lastY != -1) || (lastX == i && lastY == j) || lastMove){
-            if((lastX + lastY) % 2 == 0)panes[lastX][lastY].setStyle("-fx-background-color: #EEEED2");
-            else panes[lastX][lastY].setStyle("-fx-background-color: #769655");
+            if(lastMovedItem != null) colorPossibleMoves(lastMovedItem, false);
+            removeColor(lastX, lastY);
             lastMove = false;
         }
         if(lastX == i && lastY == j){
@@ -174,22 +174,111 @@ public class ChessBoard {
             String[] strings = labels[i][j].getText().split(",");
             lastIndexRow = Integer.parseInt(strings[0]);
             lastIndexCol = Integer.parseInt(strings[1]);
-            System.out.println("Selected!");
+
+            if(lastMovedItem != null)colorPossibleMoves(lastMovedItem, false);
+            colorPossibleMoves(chessItems[lastIndexRow][lastIndexCol], true);
+            //System.out.println("Selected!");
         }
-        panes[i][j].setStyle("-fx-background-color: #BACA45");
+        //panes[i][j].setStyle("-fx-background-color: #BACA45");
+        colorPane(i, j, COLOR.SELECTED_SQUARE);
         //System.out.println(i+","+j);
         lastX = i;
         lastY = j;
     }
 
+    private void colorPossibleMoves(ChessItem ci, boolean colorOrDiscolor) {
+        int posX = ci.getPosX();
+        int posY = ci.getPosY();
+        if(ci.getType().getFileName().equals("knight")){
+            int ara1[] = {1,1,2,2,-1,-1,-2,-2};
+            int ara2[] = {2, -2, 1, -1};
+            for(int i=0; i<2; i++){
+                for(int j=0; j<4; j++){
+                    int possibleX = posX + ara1[j + i*4];
+                    int possibleY = posY + ara2[j];
+                    checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor);
+                }
+            }
+        }
+
+        lastMovedItem = ci;
+    }
+
+    private void checkAndColorPossibleMove(ChessItem ci, int toX, int toY, boolean color){
+
+        if(toX < 0 || toX >7 || toY<0 || toY > 7) return;
+        if(!color){
+            removeColor(toX,toY);
+            return;
+        }
+        String[] ss = labels[toX][toY].getText().split(",");
+        int inToX = Integer.parseInt(ss[0]);
+        int inToY = Integer.parseInt(ss[1]);
+        if(inToX == -1 || inToY == -1) colorPane(toX, toY, COLOR.POSSIBLE_NORMAL);
+        else if(ci.getColor() != chessItems[inToX][inToY].getColor()) colorPane(toX, toY, COLOR.POSSIBLE_ATTACK);
+
+    }
+
+    enum COLOR{
+        WHITE_SQUARE("EEEED2"),
+        BLACK_SQUARE("769655"),
+        SELECTED_SQUARE("BACA45"),
+        LAST_MOVED("F6F782"),
+        POSSIBLE_NORMAL("3ce815"),
+        POSSIBLE_ATTACK("e85f15");
+
+
+        private String code;
+        COLOR(String code) {
+            this.code = code;
+        }
+        public String setColor(){
+            return "-fx-background-color: #"+code;
+        }
+    }
+
+    private void colorPane(int i, int j, COLOR color){
+        panes[i][j].setStyle(color.setColor());
+    }
+    private void removeColor(int i, int j){
+        if((i+j)%2 == 0) panes[i][j].setStyle(COLOR.WHITE_SQUARE.setColor());
+        else panes[i][j].setStyle(COLOR.BLACK_SQUARE.setColor());
+    }
+
     public void moveItem(int fromX, int fromY, int toX, int toY) {
         panes[fromX][fromY].getChildren().clear();
+        labels[fromX][fromY].setText("-1,-1");
         placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
         itemcolor[fromX][fromY]=-1;//Jeheto ei jayga ta khali hoia jabe tai value -1 korlam
         itemtype[fromX][fromY]=-1;//Same kahini eitar jonno o
-        panes[toX][toY].setStyle("-fx-background-color: #F6F782");
+        //panes[toX][toY].setStyle("-fx-background-color: #F6F782");
+        colorPane(toX, toY, COLOR.LAST_MOVED);
         lastMove = true;
         lastX = toX;
         lastY = toY;
+        printBoard();
+    }
+
+    public void printBoard(){
+
+        System.out.println("\n\n_______________________________");
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                String[] strings = labels[i][j].getText().split(",");
+                int indX = Integer.parseInt(strings[0]);
+                int indY = Integer.parseInt(strings[1]);
+                if(indX == -1 || indY == -1){
+                    System.out.print("--- ");
+                    continue;
+                }
+
+                if(chessItems[indX][indY].getColor() == ChessItem.WHITE) System.out.print("W-");
+                else System.out.print("B-");
+
+                System.out.print(chessItems[indX][indY].getType().getFileName().charAt(0)+" ");
+            }
+            System.out.println();
+        }
+        System.out.println("-------------------------------\n\n");
     }
 }
