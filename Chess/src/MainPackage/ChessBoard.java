@@ -202,7 +202,7 @@ public class ChessBoard {
             }
         }
 
-        if(type.equals("bishop")){
+        if(type.equals("bishop") || type.equals("queen")){
             for(int i=1; ;i++){
                 int possibleX = posX + i;
                 int possibleY = posY + i;
@@ -225,7 +225,7 @@ public class ChessBoard {
             }
         }
 
-        if(type.equals("rook")){
+        if(type.equals("rook") || type.equals("queen")){
             for(int i=1; ;i++){
                 int possibleX = posX;
                 int possibleY = posY + i;
