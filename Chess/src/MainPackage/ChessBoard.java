@@ -225,6 +225,29 @@ public class ChessBoard {
             }
         }
 
+        if(type.equals("rook")){
+            for(int i=1; ;i++){
+                int possibleX = posX;
+                int possibleY = posY + i;
+                if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
+            }
+            for(int i=1; ;i++){
+                int possibleX = posX;
+                int possibleY = posY - i;
+                if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
+            }
+            for(int i=1; ;i++){
+                int possibleX = posX + i;
+                int possibleY = posY;
+                if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
+            }
+            for(int i=1; ;i++){
+                int possibleX = posX - i;
+                int possibleY = posY;
+                if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
+            }
+        }
+
         lastMovedItem = ci;
     }
 
