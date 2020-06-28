@@ -2,10 +2,7 @@ package MainPackage;
 
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.util.Random;
 
@@ -201,7 +198,6 @@ public class ChessBoard {
                 }
             }
         }
-
         if(type.equals("bishop") || type.equals("queen")){
             for(int i=1; ;i++){
                 int possibleX = posX + i;
@@ -224,7 +220,6 @@ public class ChessBoard {
                 if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
             }
         }
-
         if(type.equals("rook") || type.equals("queen")){
             for(int i=1; ;i++){
                 int possibleX = posX;
@@ -245,6 +240,15 @@ public class ChessBoard {
                 int possibleX = posX - i;
                 int possibleY = posY;
                 if(!checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor)) break;
+            }
+        }
+        if(type.equals("king")){
+            for(int i=-1; i<=1; i++){
+                for(int j=-1; j<=1; j++){
+                    int possibleX = posX + i;
+                    int possibleY = posY + j;
+                    checkAndColorPossibleMove(ci, possibleX, possibleY, colorOrDiscolor);
+                }
             }
         }
 
@@ -291,6 +295,7 @@ public class ChessBoard {
     }
 
     private void colorPane(int i, int j, COLOR color){
+        //panes[i][j].setStyle("-fx-border-color: black");
         panes[i][j].setStyle(color.setColor());
     }
     private void removeColor(int i, int j){
