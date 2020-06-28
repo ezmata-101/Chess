@@ -23,6 +23,8 @@ public class ChessBoard {
     public int[][] itemtype=new int[8][8];//Eita hoilo oi element ta ki bishop naki Knight naki king na queen eigula bujhar jonno
     //Upoer 2 tar jonnoi jodi kono position e kisu na thake taile default value -1 pore set kora hoise
     private ChessItem lastMovedItem = null;
+    private int order;
+
 
     public ChessBoard(){}
 
@@ -62,6 +64,7 @@ public class ChessBoard {
 
     //Ei function tar last e ami extra ekta variable add korsi jeita hoilo itemtype,eita tmr code e chilo na.
     public void distributeItems(int order){
+        this.order = order;
         for(int i=0; i<8; i++){
             initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.PAWN, 0, 8+i, 6, i,6);
             initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.PAWN, 1, 8+i, 1, i,6);
@@ -251,8 +254,32 @@ public class ChessBoard {
                 }
             }
         }
+        if(type.equals("pawn")){
+            int pls = order == 1 ? 1 : -1;
+            if(ci.getColor() == ChessItem.WHITE) pls*=-1;
+
+            for(int i=1; i<=2; i++){
+                if(i == 2 && posX > 1 && posX < 6) break;
+                int possibleX = posX + i*pls;
+                if(possibleX>=8 || possibleX <0) break;
+                if(labels[possibleX][posY].getText().equals("-1,-1"))checkAndColorPossibleMove(ci, possibleX, posY, colorOrDiscolor);
+            }
+            for(int i=-1; i<=1; i+=2){
+                int possibleX = posX + pls;
+                if(possibleX>=8 || possibleX <0)continue;
+                if(!labels[possibleX][posY].getText().equals("-1,-1"))checkAndColorPossibleMove(ci, possibleX, posY+i, colorOrDiscolor);
+            }
+        }
 
         lastMovedItem = ci;
+    }
+
+    private ChessItem getChessItemFromPos(int x, int y){
+        String[] ss = labels[x][y].getText().split(",");
+        int indX = Integer.parseInt(ss[0]);
+        int indY = Integer.parseInt(ss[1]);
+        if(indX == -1 || indY == -1) return null;
+        return chessItems[indX][indY];
     }
 
     private boolean checkAndColorPossibleMove(ChessItem ci, int toX, int toY, boolean color){
