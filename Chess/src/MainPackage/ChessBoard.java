@@ -66,25 +66,23 @@ public class ChessBoard {
     public void distributeItems(int order){
         this.order = order;
         for(int i=0; i<8; i++){
-            initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.PAWN, 0, 8+i, 6, i,6);
-            initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.PAWN, 1, 8+i, 1, i,6);
-        }
+        initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.PAWN, 0, 8+i, 6, i,6);
+        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.PAWN, 1, 8+i, 1, i,6);}
         initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.ROOK, 0, 0, 0, 0,3);
         initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.ROOK, 0, 1, 0, 7,3);
-        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.KNIGHT, 0, 2, 0, 1,5);
-        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.KNIGHT, 0, 3, 0, 6,5);
-        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.BISHOP, 0, 4, 0, 2,4);
-        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.BISHOP, 0, 5, 0, 5,4);
-        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.QUEEN, 0, 6, 0, 3,2);
-        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.KING, 0, 7, 0, 4,1);
-
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.ROOK, 1, 0, 7, 0,3);
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.ROOK, 1, 1, 7, 7,3);
+        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.KNIGHT, 0, 2, 0, 1,5);
+        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.KNIGHT, 0, 3, 0, 6,5);
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.KNIGHT, 1, 2, 7, 1,5);
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.KNIGHT, 1, 3, 7, 6,5);
+        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.BISHOP, 0, 4, 0, 2,4);
+        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.BISHOP, 0, 5, 0, 5,4);
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.BISHOP, 1, 4, 7, 2,4);
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.BISHOP, 1, 5, 7, 5,4);
+        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.QUEEN, 0, 6, 0, 3,2);
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.QUEEN, 1, 6, 7, 3,2);
+        initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.KING, 0, 7, 0, 4,1);
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.KING, 1, 7, 7, 4,1);
     }
     private void placeItem(ChessItem item, int row, int col, int indexX, int indexY,int type){
@@ -258,23 +256,18 @@ public class ChessBoard {
             int pls = order == 1 ? 1 : -1;
             if(ci.getColor() == ChessItem.WHITE) pls*=-1;
 
-            for(int i=1; i<=2; i++){
-                if(i == 2 && posX > 1 && posX < 6) break;
-                int possibleX = posX + i*pls;
-                if(possibleX>=8 || possibleX <0) break;
-                if(labels[possibleX][posY].getText().equals("-1,-1"))checkAndColorPossibleMove(ci, possibleX, posY, colorOrDiscolor);
-            }
-            for(int i=-1; i<=1; i+=2){
-                int possibleX = posX + pls;
-                if(possibleX>=8 || possibleX <0)continue;
-                if(!labels[possibleX][posY].getText().equals("-1,-1"))checkAndColorPossibleMove(ci, possibleX, posY+i, colorOrDiscolor);
-            }
+            if(getChessItemFromPos(posX+pls, posY) == null) checkAndColorPossibleMove(ci, posX+pls, posY, colorOrDiscolor);
+            if(getChessItemFromPos(posX+pls*2, posY) == null && (posX<2 || posX>5)) checkAndColorPossibleMove(ci, posX+pls*2, posY, colorOrDiscolor);
+            if(getChessItemFromPos(posX+pls, posY+1) != null) checkAndColorPossibleMove(ci, posX+pls, posY+1, colorOrDiscolor);
+            if(getChessItemFromPos(posX+pls, posY-1) != null) checkAndColorPossibleMove(ci, posX+pls, posY-1, colorOrDiscolor);
+
         }
 
         lastMovedItem = ci;
     }
 
     private ChessItem getChessItemFromPos(int x, int y){
+        if(x<0 || x>7 || y<0 || y>7)return null;
         String[] ss = labels[x][y].getText().split(",");
         int indX = Integer.parseInt(ss[0]);
         int indY = Integer.parseInt(ss[1]);

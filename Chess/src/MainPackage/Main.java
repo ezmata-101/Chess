@@ -4,22 +4,20 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private Pane mainPane = new Pane();
+    private Pane chessBoardPane = new Pane();
+    private BorderPane mainPane = new BorderPane();
     private ChessBoard chessBoard = new ChessBoard();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        mainPane = chessBoard.createMainPane();
+        chessBoardPane = chessBoard.createMainPane();
+        mainPane.setCenter(chessBoardPane);
         chessBoard.distributeItems(1);
         //ChessItem chessItem = new ChessItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.BISHOP);
         primaryStage.setTitle("Chess");
