@@ -3,7 +3,8 @@ package MainPackage;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import java.util.Random;
 
 
@@ -24,6 +25,9 @@ public class ChessBoard {
     //Upoer 2 tar jonnoi jodi kono position e kisu na thake taile default value -1 pore set kora hoise
     private ChessItem lastMovedItem = null;
     private int order;
+    Alert a = new Alert(Alert.AlertType.NONE);
+    public boolean isBlackTurn=false;
+    public boolean isWhiteTurn=false;
 
 
     public ChessBoard(){}
@@ -61,7 +65,22 @@ public class ChessBoard {
         return mainPane;
     }
 
-
+    public void showFirstTurnStatus(){
+        if(order==1){
+            isWhiteTurn=true;
+            isBlackTurn=false;
+            a.setAlertType(AlertType.INFORMATION);
+            a.setContentText("White's turn first");
+            a.show();
+        }
+        else if(order==2){
+            isWhiteTurn=false;
+            isBlackTurn=true;
+            a.setAlertType(AlertType.INFORMATION);
+            a.setContentText("Black's turn first");
+            a.show();
+        }
+    }
     //Ei function tar last e ami extra ekta variable add korsi jeita hoilo itemtype,eita tmr code e chilo na.
     public void distributeItems(int order){
         this.order = order;
@@ -126,6 +145,11 @@ public class ChessBoard {
                 if(knight.moveKnight()){
                     moveItem(lastX,lastY,i,j);
                 }
+                else{
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You are not allowed to make this move");
+                    a.show();
+                }
             }
 
             //R jodi bishop hoy taile eita
@@ -133,6 +157,11 @@ public class ChessBoard {
                 Bishop bishop=new Bishop(x,y,itemcolor,itemtype,item.color,i,j);
                 if(bishop.moveBishop()){
                     moveItem(lastX,lastY,i,j);
+                }
+                else{
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You are not allowed to make this move");
+                    a.show();
                 }
             }
 
@@ -142,12 +171,22 @@ public class ChessBoard {
                 if(rook.moveRook()){
                     moveItem(lastX,lastY,i,j);
                 }
+                else{
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You are not allowed to make this move");
+                    a.show();
+                }
             }
             /**For queen**/
             if(item.type.getFileName()=="queen"){
                 Queen queen=new Queen(x,y,itemcolor,itemtype,item.color,i,j);
                 if(queen.moveQueen()){
                     moveItem(lastX,lastY,i,j);
+                }
+                else{
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You are not allowed to make this move");
+                    a.show();
                 }
             }
             /**For pawn**/
@@ -156,12 +195,22 @@ public class ChessBoard {
                 if(pawn.movePawn()){
                     moveItem(lastX,lastY,i,j);
                 }
+                else{
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You are not allowed to make this move");
+                    a.show();
+                }
             }
             /**For king**/
             if(item.type.getFileName()=="king"){
                 King king=new King(x,y,itemcolor,itemtype,item.color,i,j);
                 if(king.moveKing()){
                     moveItem(lastX,lastY,i,j);
+                }
+                else{
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("You are not allowed to make this move");
+                    a.show();
                 }
             }
             isSelected = false;

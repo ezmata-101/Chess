@@ -2,8 +2,6 @@ package MainPackage;
 
 import java.lang.Math;
 
-
-
 /**ei class ta kalke tmk bujhiya dibo...eita jhamela er ektu...tmi na bujhle boilo ..bujhaiya dibo**/
 public class Bishop {
     private int posX,posY;
