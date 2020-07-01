@@ -25,6 +25,7 @@ public class ChessBoard {
     //Upoer 2 tar jonnoi jodi kono position e kisu na thake taile default value -1 pore set kora hoise
     private ChessItem lastMovedItem = null;
     private int order;
+    private int turn;
     Alert a = new Alert(Alert.AlertType.NONE);
     public boolean isBlackTurn=false;
     public boolean isWhiteTurn=false;
@@ -66,14 +67,14 @@ public class ChessBoard {
     }
 
     public void showFirstTurnStatus(){
-        if(order==1){
+        if(turn==1){
             isWhiteTurn=true;
             isBlackTurn=false;
             a.setAlertType(AlertType.INFORMATION);
             a.setContentText("White's turn first");
             a.show();
         }
-        else if(order==2){
+        else if(turn==2){
             isWhiteTurn=false;
             isBlackTurn=true;
             a.setAlertType(AlertType.INFORMATION);
@@ -82,8 +83,9 @@ public class ChessBoard {
         }
     }
     //Ei function tar last e ami extra ekta variable add korsi jeita hoilo itemtype,eita tmr code e chilo na.
-    public void distributeItems(int order){
+    public void distributeItems(int order,int turn){
         this.order = order;
+        this.turn=turn;
         for(int i=0; i<8; i++){
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.PAWN, 0, 8+i, 6, i,6);
         initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.PAWN, 1, 8+i, 1, i,6);}
@@ -217,20 +219,53 @@ public class ChessBoard {
             return;
         }
         else if(!isSelected && !labels[i][j].getText().equals("-1,-1")) {
-            isSelected = true;
+            //isSelected = true;
             String[] strings = labels[i][j].getText().split(",");
             lastIndexRow = Integer.parseInt(strings[0]);
             lastIndexCol = Integer.parseInt(strings[1]);
 
+            if(isWhiteTurn==true && isBlackTurn==false){
+                if(chessItems[lastIndexRow][lastIndexCol].color==1){
+                    isSelected=true;
+                }
+                else{
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("It's White Player's turn");
+                    a.show();
+                    isSelected=false;
+                }
+                isWhiteTurn=true;
+                isBlackTurn=false;
+            }
+            else if(isBlackTurn==true && isWhiteTurn==false){
+                if(chessItems[lastIndexRow][lastIndexCol].color==0){
+                    isSelected=true;
+                }
+                else{
+                    a.setAlertType(Alert.AlertType.WARNING);
+                    a.setContentText("It's Black Player's turn");
+                    a.show();
+                    isSelected=false;
+                }
+                isWhiteTurn=false;
+                isBlackTurn=true;
+            }
+
             if(lastMovedItem != null)colorPossibleMoves(lastMovedItem, false);
-            colorPossibleMoves(chessItems[lastIndexRow][lastIndexCol], true);
+            if(isSelected){
+                colorPossibleMoves(chessItems[lastIndexRow][lastIndexCol], true);
+            }
+            //colorPossibleMoves(chessItems[lastIndexRow][lastIndexCol], true);
             //System.out.println("Selected!");
         }
         //panes[i][j].setStyle("-fx-background-color: #BACA45");
-        colorPane(i, j, COLOR.SELECTED_SQUARE);
-        //System.out.println(i+","+j);
+        if(isSelected){
+            colorPane(i, j, COLOR.SELECTED_SQUARE);
+        }
+        //colorPane(i, j, COLOR.SELECTED_SQUARE);
         lastX = i;
         lastY = j;
+        //System.out.println(i+","+j);
     }
 
     private void colorPossibleMoves(ChessItem ci, boolean colorOrDiscolor) {
@@ -383,6 +418,14 @@ public class ChessBoard {
         lastMove = true;
         lastX = toX;
         lastY = toY;
+        if(isWhiteTurn==true){
+            isWhiteTurn=false;
+            isBlackTurn=true;
+        }
+        else if(isBlackTurn==true){
+            isBlackTurn=false;
+            isWhiteTurn=true;
+        }
         printBoard();
     }
 

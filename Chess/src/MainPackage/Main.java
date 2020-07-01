@@ -27,11 +27,12 @@ public class Main extends Application {
         chessBoardPane = chessBoard.createMainPane();
         mainPane.setCenter(chessBoardPane);
         if(list.get(25)%2==0){
-            chessBoard.distributeItems(1);
+            chessBoard.distributeItems(1,1);
         }
         else{
-            chessBoard.distributeItems(2);
+            chessBoard.distributeItems(1,2);
         }
+        //chessBoard.distributeItems(1);
         //ChessItem chessItem = new ChessItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.BISHOP);
         primaryStage.setTitle("Chess");
         primaryStage.setScene(new Scene(mainPane));
