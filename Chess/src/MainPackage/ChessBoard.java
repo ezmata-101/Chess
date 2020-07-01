@@ -12,10 +12,10 @@ public class ChessBoard {
     private Pane mainPane = new Pane();
     private StackPane[][] stackPanes = new StackPane[8][8];
     private Pane[][] panes = new Pane[8][8];
-    private Label[][] labels = new Label[8][8];
+    public Label[][] labels = new Label[8][8];
     private VBox vBox= new VBox();
     private HBox[] hBoxes = new HBox[8];
-    private ChessItem[][] chessItems = new ChessItem[2][16];
+    public ChessItem[][] chessItems = new ChessItem[2][16];
     private ImageView[][] images = new ImageView[8][8];
     private int lastX =-1, lastY=-1, lastIndexRow, lastIndexCol;
     private boolean isSelected = false;
@@ -24,11 +24,13 @@ public class ChessBoard {
     public int[][] itemtype=new int[8][8];//Eita hoilo oi element ta ki bishop naki Knight naki king na queen eigula bujhar jonno
     //Upoer 2 tar jonnoi jodi kono position e kisu na thake taile default value -1 pore set kora hoise
     private ChessItem lastMovedItem = null;
-    private int order;
+    public int order;
     private int turn;
     Alert a = new Alert(Alert.AlertType.NONE);
-    public boolean isBlackTurn=false;
-    public boolean isWhiteTurn=false;
+    private boolean isBlackTurn=false;
+    private boolean isWhiteTurn=false;
+    private boolean isWhiteKingChecked=false;
+    private boolean isBlackKingChecked=false;
 
 
     public ChessBoard(){}
@@ -122,7 +124,7 @@ public class ChessBoard {
     }
 
     private void onStackPaneSelected(int i, int j){
-        printBoard();
+        //printBoard();
         if((lastX != -1 && lastY != -1) || (lastX == i && lastY == j) || lastMove){
             if(lastMovedItem != null) colorPossibleMoves(lastMovedItem, false);
             removeColor(lastX, lastY);
@@ -350,7 +352,7 @@ public class ChessBoard {
         lastMovedItem = ci;
     }
 
-    private ChessItem getChessItemFromPos(int x, int y){
+    public ChessItem getChessItemFromPos(int x, int y){
         if(x<0 || x>7 || y<0 || y>7)return null;
         String[] ss = labels[x][y].getText().split(",");
         int indX = Integer.parseInt(ss[0]);
@@ -418,15 +420,50 @@ public class ChessBoard {
         lastMove = true;
         lastX = toX;
         lastY = toY;
-        if(isWhiteTurn==true){
+        Checkmate checkmate1=new Checkmate(this,!isWhiteTurn,!isBlackTurn);
+
+        if(checkmate1.checkingCheckMate()){
+            if(isBlackKingChecked){
+                a.setAlertType(Alert.AlertType.WARNING);
+                a.setContentText("Black KIng checkmate");
+                a.show();
+                isBlackKingChecked=false;
+            }
+            else if(isWhiteKingChecked){
+                a.setAlertType(Alert.AlertType.WARNING);
+                a.setContentText("White king checkmate");
+                a.show();
+                isWhiteKingChecked=false;
+            }
+        }
+
+
+        Checkmate checkmate2=new Checkmate(this,isWhiteTurn,isBlackTurn);
+        if(checkmate2.checkingCheckMate()){
+            if(isWhiteTurn){
+                isBlackKingChecked=true;
+                isWhiteKingChecked=false;
+                a.setAlertType(Alert.AlertType.WARNING);
+                a.setContentText("Black KIng check");
+                a.show();
+            }
+            else if(isBlackTurn){
+                isWhiteKingChecked=true;
+                isBlackKingChecked=false;
+                a.setAlertType(Alert.AlertType.WARNING);
+                a.setContentText("White KIng check");
+                a.show();
+            }
+        }
+        if(isWhiteTurn){
             isWhiteTurn=false;
             isBlackTurn=true;
         }
-        else if(isBlackTurn==true){
+        else if(isBlackTurn){
             isBlackTurn=false;
             isWhiteTurn=true;
         }
-        printBoard();
+        //printBoard();
     }
 
     public void printBoard(){
