@@ -237,6 +237,11 @@ public class ChessBoard {
                     }
                     moveItem(lastX,lastY,i,j);
                 }
+                else if(checkAndDoACastle(x, y, i, j)){
+                    a.setAlertType(AlertType.CONFIRMATION);
+                    a.setContentText("Castling Done");
+                    a.show();
+                }
                 else{
                     a.setAlertType(Alert.AlertType.WARNING);
                     a.setContentText("You are not allowed to make this move");
@@ -294,6 +299,12 @@ public class ChessBoard {
         lastX = i;
         lastY = j;
         //System.out.println(i+","+j);
+    }
+
+    private boolean checkAndDoACastle(int fromX, int fromY, int toX, int toY) {
+
+
+        return false;
     }
 
     private void colorPossibleMoves(ChessItem ci, boolean colorOrDiscolor) {
@@ -368,8 +379,10 @@ public class ChessBoard {
             int pls = order == 1 ? 1 : -1;
             if(ci.getColor() == ChessItem.WHITE) pls*=-1;
 
-            if(getChessItemFromPos(posX+pls, posY) == null) checkAndColorPossibleMove(ci, posX+pls, posY, colorOrDiscolor);
-            if(getChessItemFromPos(posX+pls*2, posY) == null && (posX<2 || posX>5)) checkAndColorPossibleMove(ci, posX+pls*2, posY, colorOrDiscolor);
+            if(getChessItemFromPos(posX+pls, posY) == null){
+                checkAndColorPossibleMove(ci, posX+pls, posY, colorOrDiscolor);
+                if(getChessItemFromPos(posX+pls*2, posY) == null && (posX<2 || posX>5)) checkAndColorPossibleMove(ci, posX+pls*2, posY, colorOrDiscolor);
+            }
             if(getChessItemFromPos(posX+pls, posY+1) != null) checkAndColorPossibleMove(ci, posX+pls, posY+1, colorOrDiscolor);
             if(getChessItemFromPos(posX+pls, posY-1) != null) checkAndColorPossibleMove(ci, posX+pls, posY-1, colorOrDiscolor);
 
@@ -439,6 +452,7 @@ public class ChessBoard {
         panes[fromX][fromY].getChildren().clear();
         labels[fromX][fromY].setText("-1,-1");
         placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
+        chessItems[lastIndexRow][lastIndexCol].setEverMoved(true);
         itemcolor[fromX][fromY]=-1;//Jeheto ei jayga ta khali hoia jabe tai value -1 korlam
         itemtype[fromX][fromY]=-1;//Same kahini eitar jonno o
         //panes[toX][toY].setStyle("-fx-background-color: #F6F782");

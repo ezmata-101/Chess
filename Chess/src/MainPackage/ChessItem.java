@@ -28,12 +28,14 @@ public class ChessItem {
     private ImageView imageView;
     private int posX, posY;
     public int color;
+    private boolean everMoved;
 
     public CHESS_ITEM type;
 
     public ChessItem(int color, CHESS_ITEM type){
         this.color = color;
         this.type = type;
+        everMoved = false;
         createImageView();
     }
 
@@ -42,6 +44,7 @@ public class ChessItem {
         this.type = type;
         posX = row;
         posY = col;
+        everMoved = false;
         createImageView();
     }
     public void setPosition(int row, int column){
@@ -100,6 +103,14 @@ public class ChessItem {
 
     public CHESS_ITEM getType() {
         return type;
+    }
+
+    public boolean isEverMoved() {
+        return everMoved;
+    }
+
+    public void setEverMoved(boolean everMoved) {
+        this.everMoved = everMoved;
     }
 
     public int getColor() {
