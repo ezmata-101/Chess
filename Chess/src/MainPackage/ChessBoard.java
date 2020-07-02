@@ -5,6 +5,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+
+import java.awt.event.KeyEvent;
 import java.util.Random;
 
 
@@ -31,6 +33,12 @@ public class ChessBoard {
     private boolean isWhiteTurn=false;
     private boolean isWhiteKingChecked=false;
     private boolean isBlackKingChecked=false;
+    public boolean isWhiteKingMoved=false;
+    public boolean isBlackKingMoved=false;
+    public boolean isWhiteRookMoved1=false;
+    public boolean isWhiteRookMoved2=false;
+    public boolean isBlackRookMoved1=false;
+    public boolean isBlackRookMoved2=false;
 
 
     public ChessBoard(){}
@@ -139,7 +147,7 @@ public class ChessBoard {
         if(isSelected){
             //moveItem(lastX, lastY, i, j);
             ChessItem item=chessItems[lastIndexRow][lastIndexCol];//Jei element ta selected hoilo oita item e rakhlam
-            int x=item.getPosX();//Itar x,y,coordinate store korlam
+            int x=item.getPosX();//Item tar x,y,coordinate store korlam
             int y=item.getPosY();
     //        System.out.println(x+ " "+ y +" " +item.color+ " "+ i + " "+ j);
 
@@ -173,6 +181,18 @@ public class ChessBoard {
             if(item.type.getFileName()=="rook"){
                 Rook rook=new Rook(x,y,itemcolor,itemtype,item.color,i,j);
                 if(rook.moveRook()){
+                    if(isBlackRookMoved1==false && item.color==0 && x==0 && y==0){
+                        isBlackRookMoved1=true;
+                    }
+                    if(isBlackRookMoved2==false && item.color==0 && x==0 && y==7){
+                        isBlackRookMoved2=true;
+                    }
+                    if(isWhiteRookMoved1==false && item.color==1 && x==7 && y==0){
+                        isWhiteRookMoved1=true;
+                    }
+                    if(isWhiteRookMoved2==false && item.color==1 && x==7 && y==7){
+                        isWhiteRookMoved2=true;
+                    }
                     moveItem(lastX,lastY,i,j);
                 }
                 else{
@@ -209,6 +229,12 @@ public class ChessBoard {
             if(item.type.getFileName()=="king"){
                 King king=new King(x,y,itemcolor,itemtype,item.color,i,j);
                 if(king.moveKing()){
+                    if(isBlackKingMoved==false && item.color==0){
+                        isBlackKingMoved=true;
+                    }
+                    if(isWhiteKingMoved==false && item.color==1){
+                        isWhiteKingMoved=true;
+                    }
                     moveItem(lastX,lastY,i,j);
                 }
                 else{

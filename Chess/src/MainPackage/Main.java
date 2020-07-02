@@ -40,7 +40,6 @@ public class Main extends Application {
         chessBoard.showFirstTurnStatus();
     }
 
-
     public static void main(String[] args) {
         launch(args);
     }

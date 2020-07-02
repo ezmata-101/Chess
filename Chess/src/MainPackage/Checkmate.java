@@ -8,6 +8,10 @@ public class Checkmate {
     private boolean isWhiteTurn;
     private boolean isBlackTurn;
     private int count=0;
+    private int blackRightRow=0;
+    private int blackLeftRow=0;
+    private int whiteRightRow=0;
+    private int whiteLeftRow=0;
     Checkmate(ChessBoard board,boolean isWhiteTurn,boolean isBlackTurn){
         this.board=board;
         this.isWhiteTurn=isWhiteTurn;
@@ -131,6 +135,12 @@ public class Checkmate {
         int inToX = Integer.parseInt(ss[0]);
         int inToY = Integer.parseInt(ss[1]);
         if(inToX == -1 || inToY == -1){
+            if(toX==0 && (toY==5 || toY==6)){
+                blackRightRow++;
+            }
+            if(toX==7 && (toY==5 || toY==6)){
+                whiteRightRow++;
+            }
             return true;
         }
         else if(ci.getColor() != board.chessItems[inToX][inToY].getColor()){
