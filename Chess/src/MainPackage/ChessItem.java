@@ -116,4 +116,6 @@ public class ChessItem {
     public int getColor() {
         return color;
     }
+
+
 }

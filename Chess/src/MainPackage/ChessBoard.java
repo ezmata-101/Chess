@@ -302,9 +302,65 @@ public class ChessBoard {
     }
 
     private boolean checkAndDoACastle(int fromX, int fromY, int toX, int toY) {
+        if(Math.abs(fromY - toY) !=2 || fromX != toX){
+            System.out.println("Returning false for distance!");
+            return false;
+        }
 
+        ChessItem king = getChessItemFromPos(fromX, fromY);
+        if(king.getColor() == ChessItem.WHITE && isWhiteKingChecked) return false;
+        if(king.getColor() == ChessItem.BLACK && isBlackKingChecked) return false;
+        System.out.println("Check passed");
+        ChessItem rook;
+        int pls = -1;
+        int rookIndX, rookIndY;
+        if(toY > fromY){
+            rook = getChessItemFromPos(fromX, 7);
+            pls = 1;
+        }
+        else rook = getChessItemFromPos(fromX, 0);
 
-        return false;
+        String s;
+        if(toY > fromY) s =  labels[fromX][7].getText();
+        else s = labels[fromX][0].getText();
+        if(s.equals("-1,-1"))return false;
+        String[] ss = s.split(",");
+        rookIndX = Integer.parseInt(ss[0]);
+        rookIndY = Integer.parseInt(ss[1]);
+        rook = chessItems[rookIndX][rookIndY];
+        System.out.println("Null Rock passed");
+        if(rook.isEverMoved()) return false;
+        System.out.println("Is ever Moved passed");
+
+        for(int i=fromY+pls; i<7&&i>0; i+=pls){
+            if(getChessItemFromPos(toX, i) != null){
+                System.out.format("Returning for : %d %d\n", toX, i);
+                return false;
+            }
+        }
+        System.out.println("Everything passed");
+
+        moveItem(fromX, fromY, toX, toY);
+        lastIndexRow = rookIndX;
+        lastIndexCol = rookIndY;
+        lastX = rook.getPosX();
+        lastY = rook.getPosY();
+        if(pls>0){
+            moveItem(fromX, 7, fromX, 5);
+        }
+        else{
+            moveItem(fromX, 0, fromX, 3);
+        }
+
+        if(king.getColor() == ChessItem.WHITE){
+            isWhiteTurn = false;
+            isBlackTurn = true;
+        } else{
+            isWhiteTurn = true;
+            isBlackTurn = false;
+        }
+
+        return true;
     }
 
     private void colorPossibleMoves(ChessItem ci, boolean colorOrDiscolor) {
