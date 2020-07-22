@@ -310,7 +310,7 @@ public class ChessBoard {
         ChessItem king = getChessItemFromPos(fromX, fromY);
         if(king.getColor() == ChessItem.WHITE && isWhiteKingChecked) return false;
         if(king.getColor() == ChessItem.BLACK && isBlackKingChecked) return false;
-        System.out.println("Check passed");
+        //System.out.println("Check passed");
         ChessItem rook;
         int pls = -1;
         int rookIndX, rookIndY;
@@ -328,17 +328,17 @@ public class ChessBoard {
         rookIndX = Integer.parseInt(ss[0]);
         rookIndY = Integer.parseInt(ss[1]);
         rook = chessItems[rookIndX][rookIndY];
-        System.out.println("Null Rock passed");
+        //System.out.println("Null Rock passed");
         if(rook.isEverMoved()) return false;
-        System.out.println("Is ever Moved passed");
+        //System.out.println("Is ever Moved passed");
 
         for(int i=fromY+pls; i<7&&i>0; i+=pls){
             if(getChessItemFromPos(toX, i) != null){
-                System.out.format("Returning for : %d %d\n", toX, i);
+                //System.out.format("Returning for : %d %d\n", toX, i);
                 return false;
             }
         }
-        System.out.println("Everything passed");
+        //System.out.println("Everything passed");
 
         moveItem(fromX, fromY, toX, toY);
         lastIndexRow = rookIndX;
@@ -455,7 +455,6 @@ public class ChessBoard {
         if(indX == -1 || indY == -1) return null;
         return chessItems[indX][indY];
     }
-
     private boolean checkAndColorPossibleMove(ChessItem ci, int toX, int toY, boolean color){
 
         if(toX < 0 || toX >7 || toY<0 || toY > 7) return false;
@@ -476,7 +475,6 @@ public class ChessBoard {
         }
         else return false;
     }
-
     enum COLOR{
         WHITE_SQUARE("EEEED2"),
         BLACK_SQUARE("769655"),
@@ -494,7 +492,6 @@ public class ChessBoard {
             return "-fx-background-color: #"+code;
         }
     }
-
     private void colorPane(int i, int j, COLOR color){
         //panes[i][j].setStyle("-fx-border-color: black");
         panes[i][j].setStyle(color.setColor());
