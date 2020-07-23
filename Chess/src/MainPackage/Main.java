@@ -12,13 +12,13 @@ import java.util.Collections;
 
 public class Main extends Application {
 
-    private Pane chessBoardPane = new Pane();
+    /*private Pane chessBoardPane = new Pane();
     private BorderPane mainPane = new BorderPane();
-    private ChessBoard chessBoard = new ChessBoard();
+    private ChessBoard chessBoard = new ChessBoard();*/
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        ArrayList<Integer> list = new ArrayList<Integer>();
+        /*ArrayList<Integer> list = new ArrayList<Integer>();
         for (int i=1; i<51; i++) {
             list.add(i);
         }
@@ -37,7 +37,11 @@ public class Main extends Application {
         primaryStage.setTitle("Chess");
         primaryStage.setScene(new Scene(mainPane));
         primaryStage.show();
-        chessBoard.showFirstTurnStatus();
+        chessBoard.showFirstTurnStatus();*/
+        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
+        primaryStage.setTitle("Chess");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
     }
 
     public static void main(String[] args) {
