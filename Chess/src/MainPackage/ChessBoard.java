@@ -6,8 +6,6 @@ import javafx.scene.layout.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-import java.awt.event.KeyEvent;
-import java.util.Random;
 
 
 public class ChessBoard {
