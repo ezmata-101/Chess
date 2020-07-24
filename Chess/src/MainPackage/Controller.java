@@ -23,7 +23,7 @@ public class Controller implements Initializable {
         Stage stage=(Stage)this.signUp.getScene().getWindow();
         stage.close();
         Stage primaryStage=new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("SignIn.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/FXMLS/SignIn.fxml"));
         primaryStage.setTitle("Chess");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -33,7 +33,7 @@ public class Controller implements Initializable {
         Stage stage=(Stage)this.logIn.getScene().getWindow();
         stage.close();
         Stage primaryStage=new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("LogIn.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/FXMLS/LogIn.fxml"));
         primaryStage.setTitle("Chess");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

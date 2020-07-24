@@ -24,7 +24,7 @@ public class Game {
 
     public void init(){
         try {
-            fxmlLoader = new FXMLLoader(getClass().getResource("game_layout.fxml"));
+            fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLS/game_layout.fxml"));
             mainPane = fxmlLoader.load();
             controller = fxmlLoader.getController();
 //            fxmlLoader.setController(controller);
