@@ -28,31 +28,15 @@ public class LogInController implements Initializable {
     private ChessBoard chessBoard = new ChessBoard();
     DatabaseUserManage ds=new DatabaseUserManage();
     Alert a = new Alert(Alert.AlertType.NONE);
+    Game game;
 
     public void LogInButtonPushed(ActionEvent event) throws IOException {
         if(ds.getUserByName(username.getText())){
             if(ds.AccountValidityCheck(username.getText(),password.getText())){
                 Stage stage=(Stage)this.username.getScene().getWindow();
                 stage.close();
-                ArrayList<Integer> list = new ArrayList<Integer>();
-                for (int i=1; i<51; i++) {
-                    list.add(i);
-                }
-                Collections.shuffle(list);
-                Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-                Stage primaryStage=new Stage();
-                chessBoardPane = chessBoard.createMainPane();
-                mainPane.setCenter(chessBoardPane);
-                if(list.get(25)%2==0){
-                    chessBoard.distributeItems(1,1);
-                }
-                else{
-                    chessBoard.distributeItems(1,2);
-                }
-                primaryStage.setTitle("Chess");
-                primaryStage.setScene(new Scene(mainPane));
-                primaryStage.show();
-                chessBoard.showFirstTurnStatus();
+                game = new Game(ds);
+                game.init();
             }
             else{
                 a.setAlertType(Alert.AlertType.WARNING);
