@@ -8,11 +8,11 @@
 
 <BorderPane id="borderPane;" fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPackage.GamePaneController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
+      <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#onCloseMenuItem" text="Close" />
             </items>
           </Menu>
           <Menu id="hideMenu" fx:id="hideMenu" mnemonicParsing="false" onAction="#onHideMenu" text="Hide" />
