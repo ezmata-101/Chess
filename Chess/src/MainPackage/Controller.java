@@ -22,21 +22,43 @@ public class Controller implements Initializable {
     public void signUpButtonPushed(ActionEvent event) throws IOException {
         Stage stage=(Stage)this.signUp.getScene().getWindow();
         stage.close();
+        ClientManage client=new ClientManage();
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/FXMLS/SignIn.fxml"));
+        Parent root=loader.load();
+        SignInController signin=loader.getController();
+        signin.setClient(client);
         Stage primaryStage=new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/FXMLS/SignIn.fxml"));
         primaryStage.setTitle("Chess");
         primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        client.setStage(primaryStage);
+        if(client.start()){
+            primaryStage.show();
+            System.out.println("New Client in Process.");
+        }
+        else {
+            System.out.println("Failed to create a client");
+        }
     }
 
     public void logInButtonPushed(ActionEvent event) throws IOException {
         Stage stage=(Stage)this.logIn.getScene().getWindow();
         stage.close();
+        ClientManage client=new ClientManage();
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/FXMLS/LogIn.fxml"));
+        Parent root=loader.load();
+        LogInController login=loader.getController();
+        login.setClient(client);
         Stage primaryStage=new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("/FXMLS/LogIn.fxml"));
         primaryStage.setTitle("Chess");
         primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        client.setStage(primaryStage);
+        if(client.start()){
+            System.out.println("Previous Client in Process.");
+            primaryStage.show();
+        }
+        else {
+            System.out.println("Failed to connect to a previous client");
+        }
     }
 
     @Override

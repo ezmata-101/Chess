@@ -17,13 +17,13 @@ public class Game {
     private Pane chessBoardPane = new Pane();
     private BorderPane mainPane = new BorderPane();
     private ChessBoard chessBoard = new ChessBoard();
-    DatabaseUserManage ds;
     FXMLLoader fxmlLoader;
     GamePaneController controller;
 
-    Game(DatabaseUserManage ds){
+    /*Game(DatabaseUserManage ds){
         this.ds = ds;
-    }
+    }*/
+    Game(){}
 
     public void init(){
         try {

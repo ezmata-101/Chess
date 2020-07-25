@@ -26,16 +26,17 @@ public class LogInController implements Initializable {
     private Pane chessBoardPane = new Pane();
     private BorderPane mainPane = new BorderPane();
     private ChessBoard chessBoard = new ChessBoard();
-    DatabaseUserManage ds=new DatabaseUserManage();
+    //DatabaseUserManage ds=new DatabaseUserManage();
     Alert a = new Alert(Alert.AlertType.NONE);
     Game game;
+    ClientManage client;
 
     public void LogInButtonPushed(ActionEvent event) throws IOException {
-        if(ds.getUserByName(username.getText())){
+        /*if(ds.getUserByName(username.getText())){
             if(ds.AccountValidityCheck(username.getText(),password.getText())){
                 Stage stage=(Stage)this.username.getScene().getWindow();
                 stage.close();
-                game = new Game(ds);
+                game = new Game();
                 game.init();
             }
             else{
@@ -48,13 +49,18 @@ public class LogInController implements Initializable {
             a.setAlertType(Alert.AlertType.WARNING);
             a.setContentText("Invalid Username or Password");
             a.show();
-        }
+        }*/
+        String msg="login/"+username.getText()+"/"+password.getText()+"/ ";
+        client.dos.writeUTF(msg);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ds.open();
+        //ds.open();
         username.setText("");
         password.setText("");
+    }
+    public void setClient(ClientManage client){
+        this.client=client;
     }
 }

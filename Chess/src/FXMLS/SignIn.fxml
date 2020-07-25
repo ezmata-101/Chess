@@ -7,7 +7,6 @@
 <AnchorPane prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPackage.SignInController">
    <children>
       <TextField fx:id="username" layoutX="235.0" layoutY="93.0" promptText="Username" />
-      <TextField fx:id="password" layoutX="236.0" layoutY="150.0" promptText="Password" />
       <Label layoutX="158.0" layoutY="152.0" text="Password:">
          <font>
             <Font name="System Bold Italic" size="15.0" />
@@ -25,5 +24,6 @@
       </Button>
       <Label fx:id="usernameAlert" layoutX="212.0" layoutY="123.0" prefHeight="17.0" prefWidth="173.0" />
       <Label fx:id="passwordAlert" layoutX="146.0" layoutY="184.0" prefHeight="21.0" prefWidth="239.0" />
+      <PasswordField fx:id="password" layoutX="235.0" layoutY="150.0" promptText="Password" />
    </children>
 </AnchorPane>

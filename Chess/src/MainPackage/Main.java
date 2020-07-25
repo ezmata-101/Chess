@@ -14,13 +14,13 @@ import java.util.Collections;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
-//        Parent root = FXMLLoader.load(getClass().getResource("/FXMLS/main.fxml"));
-//        primaryStage.setTitle("Chess");
-//        primaryStage.setScene(new Scene(root));
-//        primaryStage.show();
-
-        Game game = new Game(new DatabaseUserManage());
-        game.init();
+        Parent root = FXMLLoader.load(getClass().getResource("/FXMLS/main.fxml"));
+        primaryStage.setTitle("Chess");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+        //Game game = new Game(new DatabaseUserManage());
+        /*Game game=new Game();
+        game.init();*/
     }
 
     public static void main(String[] args) {

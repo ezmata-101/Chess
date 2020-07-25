@@ -1,10 +1,10 @@
-package MainPackage;
+package sample;
 
 import java.sql.*;
 
 public class DatabaseUserManage {
     Connection connection;
-    private static final String DATABASE_PATH = "jdbc:sqlite:src\\MainPackage\\";
+    private static final String DATABASE_PATH = "jdbc:sqlite:src\\sample\\";
     private static final String DATABASE_NAME = "userinfo.db";
     private static final String USER_INFO_TABLE = "userinfo";
 
