@@ -1,11 +1,14 @@
 package MainPackage;
 
+import javafx.animation.RotateTransition;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 
 public class ChessBoard {
@@ -38,8 +41,13 @@ public class ChessBoard {
     public boolean isBlackRookMoved1=false;
     public boolean isBlackRookMoved2=false;
 
+    ClientManage client;
+
 
     public ChessBoard(){}
+    ChessBoard(ClientManage client){
+        this.client = client;
+    }
 
     public Pane createMainPane() {
         for(int i=0; i<8; i++){
@@ -557,7 +565,30 @@ public class ChessBoard {
             isBlackTurn=false;
             isWhiteTurn=true;
         }
+
+        doARotation();
+
         //printBoard();
+    }
+
+    private void doRotate(Node node){
+        RotateTransition rt = new RotateTransition();
+        rt.setAxis(Rotate.Z_AXIS);
+        rt.setByAngle(180);
+        rt.setCycleCount(1);
+        rt.setDuration(Duration.millis(1000));
+        rt.setAutoReverse(false);
+        rt.setNode(node);
+        rt.play();
+    }
+
+    public void doARotation() {
+        doRotate(mainPane);
+        for(int i=0; i<2; i++){
+            for(int j=0; j<16; j++){
+                doRotate(chessItems[i][j].getImageView());
+            }
+        }
     }
 
     public void printBoard(){
@@ -581,5 +612,13 @@ public class ChessBoard {
             System.out.println();
         }
         System.out.println("-------------------------------\n\n");
+    }
+    void sendToMessage(String message){
+        if(client == null) return;
+        try{
+            client.sendToServer(message);
+        }catch (Exception e){
+            System.out.println("ERROR: "+e.getMessage());
+        }
     }
 }

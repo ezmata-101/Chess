@@ -1,34 +1,49 @@
 package MainPackage;
 
+import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class GamePaneController implements Initializable {
-    @FXML BorderPane borderPane;
-    @FXML MenuBar menuBar;
-    @FXML Menu hideMenu, fileMenu;
     @FXML
-    MenuItem closeMenuItem;
-    public void onHideMenu(){}
-    public void onCloseMenuItem(){
-        System.out.println("Close");
-        if(borderPane.getTop() != null){
-            borderPane.setTop(null);
-            borderPane.setBottom(menuBar);
-        }else{
-            borderPane.setBottom(null);
-            borderPane.setTop(menuBar);
-        }
-    }
+    AnchorPane anchorPane;
+    @FXML
+    MenuBar menuBar;
+    @FXML
+    Menu fileMenu;
+    @FXML
+    BorderPane borderPane;
+
+    ClientManage client;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        borderPane = new BorderPane();
+    }
+    public BorderPane getBorderPane(){
+        return borderPane;
+    }
+    public void setClient(){
+        this.client = client;
+        client.setGamePaneController();
+    }
+    public void sendMessage(String message){
+        if(client == null) return;
+        client.sendToServer(message);
+    }
+
+    public void setBorderPane(BorderPane mainPane) {
+        borderPane = mainPane;
     }
 }

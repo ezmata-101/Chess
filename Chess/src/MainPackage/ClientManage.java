@@ -101,11 +101,11 @@ public class ClientManage implements Runnable{
 
     private void initGame() {
         Platform.runLater(
-                ()->{
-                    stage.close();
-                    Game game = new Game();
-                    game.init();
-                }
+            ()->{
+                stage.close();
+                Game game = new Game();
+                game.init();
+            }
         );
     }
     private void createAlert(String message){
@@ -114,5 +114,9 @@ public class ClientManage implements Runnable{
             a.setContentText(message);
             a.show();
         });
+    }
+    GamePaneController gamePaneController;
+    public void setGamePaneController() {
+        this.gamePaneController = gamePaneController;
     }
 }

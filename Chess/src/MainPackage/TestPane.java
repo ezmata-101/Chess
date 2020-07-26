@@ -13,10 +13,21 @@ public class TestPane extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+//        for(int i=0; i<8; i++){
+//            for(int j=0; j<8; j++){
+//                System.out.print(i+","+j+"    ");
+//            }
+//            System.out.println();
+//        }
+        ChessBoard chessBoard = new ChessBoard();
+
         AnchorPane pane = new AnchorPane();
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLS/initial_layout.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLS/game_layout.fxml"));
             pane = loader.load();
+            GamePaneController controller = loader.getController();
+
         }catch (Exception e){
             System.out.println("Failed to Load!");
             e.printStackTrace();

@@ -6,17 +6,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane id="borderPane;" fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPackage.GamePaneController">
-   <top>
-      <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+
+<AnchorPane fx:controller="MainPackage.GamePaneController" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar fx:id="menuBar" prefHeight="15.0" prefWidth="480.0">
         <menus>
           <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" onAction="#onCloseMenuItem" text="Close" />
+              <MenuItem fx:id="menuMenuItem" mnemonicParsing="false" text="Menu" />
             </items>
           </Menu>
-          <Menu id="hideMenu" fx:id="hideMenu" mnemonicParsing="false" onAction="#onHideMenu" text="Hide" />
         </menus>
       </MenuBar>
-   </top>
-</BorderPane>
+      <BorderPane fx:id="borderPane" layoutX="-6.0" layoutY="32.0" prefHeight="480.0" prefWidth="480.0" />
+   </children>
+</AnchorPane>
