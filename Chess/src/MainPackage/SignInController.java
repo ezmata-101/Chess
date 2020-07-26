@@ -4,7 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,53 +16,40 @@ import java.util.ResourceBundle;
 public class SignInController implements Initializable {
 
     @FXML public TextField username;
-    @FXML private TextField password;
-    @FXML private Label usernameAlert;
-    @FXML private Label passwordAlert;
+    @FXML private PasswordField password;
+    @FXML private Label gotoLogin;
     /*private Pane chessBoardPane = new Pane();
     private BorderPane mainPane = new BorderPane();
     private ChessBoard chessBoard = new ChessBoard();*/
     //DatabaseUserManage ds=new DatabaseUserManage();
     Game game;
     ClientManage client;
-    ClientThread clientThread=new ClientThread();
 
     public void signInButtonPushed(ActionEvent event) throws IOException {
-        if(username.getText().length()==0){
-            usernameAlert.setText("Invalid Username.");
-            if(password.getText().length()>=8){
-                passwordAlert.setText("");
-            }
+
+        String name = username.getText();
+        String pass = password.getText();
+        password.clear();
+        boolean flag = false;
+        if(name.equals("")){
+            username.clear();
+            username.setPromptText("Invalid User Name");
+            username.setStyle("-fx-fill: brown; "+
+                    "-fx-text-fill: brown");
+            username.setStyle("-fx-border-color: brown");
+            flag = true;
         }
-        else if(password.getText().length()<8){
-            if(username.getText().length()!=0){
-                usernameAlert.setText("");
-            }
-            passwordAlert.setText("Your password must be 8 characters long.");
+        if(pass.equals("") || pass.length() < 8){
+            password.setPromptText("Invalid Pass. Min len: 8");
+            password.setStyle("-fx-text-fill: brown; "+"" +
+                    "-fx-border-color: brown");
+            flag = true;
         }
-        else if(username.getText().length()!=0){
-            /*if(ds.getUserByName(username.getText())){
-                a.setAlertType(Alert.AlertType.WARNING);
-                a.setContentText("This Username Already Exist.");
-                a.show();
-            }
-            else{
-                if(username.getText().length()!=0){
-                    usernameAlert.setText("");
-                }
-                if(password.getText().length()>=8){
-                    passwordAlert.setText("");
-                }
-                if(ds.AddUserToUserInfoTable(username.getText(),password.getText())){
-                    Stage stage=(Stage)this.username.getScene().getWindow();
-                    stage.close();
-                    game = new Game();
-                    game.init();
-                }
-            }*/
-            String msg="signin/"+username.getText()+"/"+password.getText()+"/ ";
-            client.dos.writeUTF(msg);
-        }
+        if(flag) return;
+
+        //String msg="signin/"+username.getText()+"/"+password.getText()+"/ ";
+        String msg = "signin/"+name+"/"+pass;
+        client.dos.writeUTF(msg);
     }
 
     @Override
@@ -70,5 +59,9 @@ public class SignInController implements Initializable {
     }
     public void setClient(ClientManage client){
         this.client=client;
+    }
+
+    public void goToLogIn(MouseEvent mouseEvent) {
+
     }
 }

@@ -18,11 +18,12 @@ public class Controller implements Initializable {
     @FXML
     private Button signUp;
     @FXML private Button logIn;
+    ClientManage client;
 
     public void signUpButtonPushed(ActionEvent event) throws IOException {
         Stage stage=(Stage)this.signUp.getScene().getWindow();
         stage.close();
-        ClientManage client=new ClientManage();
+
         FXMLLoader loader=new FXMLLoader(getClass().getResource("/FXMLS/SignIn.fxml"));
         Parent root=loader.load();
         SignInController signin=loader.getController();
@@ -43,7 +44,6 @@ public class Controller implements Initializable {
     public void logInButtonPushed(ActionEvent event) throws IOException {
         Stage stage=(Stage)this.logIn.getScene().getWindow();
         stage.close();
-        ClientManage client=new ClientManage();
         FXMLLoader loader=new FXMLLoader(getClass().getResource("/FXMLS/LogIn.fxml"));
         Parent root=loader.load();
         LogInController login=loader.getController();
@@ -59,6 +59,10 @@ public class Controller implements Initializable {
         else {
             System.out.println("Failed to connect to a previous client");
         }
+    }
+
+    void setClient(ClientManage client){
+        this.client = client;
     }
 
     @Override

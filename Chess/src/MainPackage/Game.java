@@ -19,6 +19,7 @@ public class Game {
     private ChessBoard chessBoard = new ChessBoard();
     FXMLLoader fxmlLoader;
     GamePaneController controller;
+    Stage primaryStage;
 
     /*Game(DatabaseUserManage ds){
         this.ds = ds;
@@ -34,7 +35,7 @@ public class Game {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage primaryStage=new Stage();
+        primaryStage=new Stage();
         ArrayList<Integer> list = new ArrayList<Integer>();
         for (int i=1; i<51; i++) {
             list.add(i);

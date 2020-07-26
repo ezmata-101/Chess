@@ -4,21 +4,23 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class TestPane extends Application {
 
 
-    private Pane mainPane = new Pane();
-    private ChessBoard chessBoard = new ChessBoard();
-
-
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Pane pane = new Pane();
-        ChessItem ci1 = new ChessItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.PAWN);
-        pane.getChildren().add(ci1.getImageView());
+        AnchorPane pane = new AnchorPane();
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLS/initial_layout.fxml"));
+            pane = loader.load();
+        }catch (Exception e){
+            System.out.println("Failed to Load!");
+            e.printStackTrace();
+        }
         Scene scene = new Scene(pane);
         primaryStage.setTitle("Test");
         primaryStage.setScene(scene);

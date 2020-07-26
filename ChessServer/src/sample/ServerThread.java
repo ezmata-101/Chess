@@ -59,7 +59,9 @@ public class ServerThread implements Runnable{
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Player Left!");
+
+            //e.printStackTrace();
         }
         finally {
             try {

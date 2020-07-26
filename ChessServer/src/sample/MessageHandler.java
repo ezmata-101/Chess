@@ -1,8 +1,6 @@
 package sample;
 
 
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
 
 public class MessageHandler {
     DatabaseUserManage ds=new DatabaseUserManage();

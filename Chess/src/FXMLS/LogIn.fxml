@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPackage.LogInController">
+<AnchorPane prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPackage.LogInController">
     <children>
+        <Label layoutX="155.0" layoutY="94.0" text="Username:">
+            <font>
+                <Font name="System Bold Italic" size="15.0" />
+            </font>
+        </Label>
         <TextField fx:id="username" layoutX="235.0" layoutY="93.0" promptText="Username" />
         <Label layoutX="158.0" layoutY="152.0" text="Password:">
             <font>
                 <Font name="System Bold Italic" size="15.0" />
             </font>
         </Label>
-        <Label layoutX="155.0" layoutY="94.0" text="Username:">
-            <font>
-                <Font name="System Bold Italic" size="15.0" />
-            </font>
-        </Label>
-        <Button layoutX="260.0" layoutY="220.0" mnemonicParsing="false" onAction="#LogInButtonPushed" prefHeight="29.0" prefWidth="84.0" text="Log In">
+      <PasswordField fx:id="password" layoutX="235.0" layoutY="150.0" promptText="Password" />
+        <Button layoutX="338.0" layoutY="224.0" mnemonicParsing="false" onAction="#LogInButtonPushed" prefHeight="29.0" prefWidth="84.0" text="Log In">
             <font>
                 <Font size="13.0" />
             </font>
         </Button>
-      <PasswordField fx:id="password" layoutX="235.0" layoutY="150.0" promptText="Password" />
+      <Text fx:id="createText" layoutX="187.0" layoutY="244.0" onMouseClicked="#moveToSignUp" strokeType="OUTSIDE" strokeWidth="0.0" text="Create an Account" wrappingWidth="126.6708984375" />
     </children>
 </AnchorPane>
