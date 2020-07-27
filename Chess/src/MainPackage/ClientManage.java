@@ -16,6 +16,7 @@ public class ClientManage implements Runnable{
     DataOutputStream dos;
     Stage stage;
     Thread t;
+    Game game;
 
     ClientManage(){}
 
@@ -97,14 +98,21 @@ public class ClientManage implements Runnable{
                 else createAlert("Invalid Username or Password!");
             }
         }
+
+        else if(strings[0].equals("GAME_CREATE")){
+            Platform.runLater(() -> {
+                game.setCreateGameCode(strings[1]);
+            });
+        }
     }
 
     private void initGame() {
         Platform.runLater(
             ()->{
                 stage.close();
-                Game game = new Game();
+                game = new Game();
                 game.init();
+                game.setClient(this);
             }
         );
     }

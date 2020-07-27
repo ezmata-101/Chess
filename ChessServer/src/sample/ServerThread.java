@@ -57,6 +57,10 @@ public class ServerThread implements Runnable{
                         dos.writeUTF("login/unsuccessful");
                     }
                 }
+                else if(strings[0].equals("CREATE_NEW_GAME")){
+                    System.out.println("Dhukeche!");
+                    sendToClient("GAME_CREATE/aksh001");
+                }
             }
         } catch (IOException e) {
             System.out.println("Player Left!");
@@ -69,6 +73,15 @@ public class ServerThread implements Runnable{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void sendToClient(String message) {
+        try {
+            dos.writeUTF(message);
+            System.out.println("Sent: "+message);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

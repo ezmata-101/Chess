@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="138.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPackage.MenuController">
+   <children>
+      <Button layoutX="29.0" layoutY="54.0" mnemonicParsing="false" text="Create Game" />
+      <Button layoutX="160.0" layoutY="54.0" mnemonicParsing="false" text="Practice Offline" />
+      <Button layoutX="306.0" layoutY="54.0" mnemonicParsing="false" text="Join Game" />
+   </children>
+</AnchorPane>

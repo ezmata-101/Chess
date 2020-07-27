@@ -24,12 +24,14 @@ public class GamePaneController implements Initializable {
     Menu fileMenu;
     @FXML
     BorderPane borderPane;
+    @FXML MenuItem menuMenuItem;
 
     ClientManage client;
+    Game game;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        borderPane = new BorderPane();
+        //borderPane = new BorderPane();
     }
     public BorderPane getBorderPane(){
         return borderPane;
@@ -41,6 +43,16 @@ public class GamePaneController implements Initializable {
     public void sendMessage(String message){
         if(client == null) return;
         client.sendToServer(message);
+    }
+    public void onMenuItem(){
+        if(game == null){
+            System.out.println("Returning...");
+            return;
+        }
+        game.showMenu();
+    }
+    public void setGame(Game game){
+        this.game = game;
     }
 
     public void setBorderPane(BorderPane mainPane) {

@@ -50,6 +50,7 @@ public class ChessBoard {
     }
 
     public Pane createMainPane() {
+        mainPane = new Pane();
         for(int i=0; i<8; i++){
             hBoxes[i] = new HBox();
             for(int j=0; j<8; j++){
@@ -122,6 +123,14 @@ public class ChessBoard {
         initiateNewItem(ChessItem.BLACK, ChessItem.CHESS_ITEM.KING, 0, 7, 0, 4,1);
         initiateNewItem(ChessItem.WHITE, ChessItem.CHESS_ITEM.KING, 1, 7, 7, 4,1);
     }
+
+    public void clearPane(){
+
+    }
+    private void removeItem(int row, int col){
+        panes[row][col].getChildren().clear();
+    }
+
     private void placeItem(ChessItem item, int row, int col, int indexX, int indexY,int type){
         panes[row][col].getChildren().clear();
         labels[row][col].setText(indexX+","+indexY);
@@ -566,27 +575,27 @@ public class ChessBoard {
             isWhiteTurn=true;
         }
 
-        doARotation();
+        doARotation(750);
 
         //printBoard();
     }
 
-    private void doRotate(Node node){
+    private void doRotate(Node node, int time){
         RotateTransition rt = new RotateTransition();
         rt.setAxis(Rotate.Z_AXIS);
         rt.setByAngle(180);
         rt.setCycleCount(1);
-        rt.setDuration(Duration.millis(1000));
+        rt.setDuration(Duration.millis(time));
         rt.setAutoReverse(false);
         rt.setNode(node);
         rt.play();
     }
 
-    public void doARotation() {
-        doRotate(mainPane);
+    public void doARotation(int timeInMillis) {
+        doRotate(mainPane, timeInMillis);
         for(int i=0; i<2; i++){
             for(int j=0; j<16; j++){
-                doRotate(chessItems[i][j].getImageView());
+                doRotate(chessItems[i][j].getImageView(), timeInMillis);
             }
         }
     }
