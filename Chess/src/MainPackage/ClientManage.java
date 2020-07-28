@@ -3,6 +3,7 @@ package MainPackage;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -17,6 +18,7 @@ public class ClientManage implements Runnable{
     Stage stage;
     Thread t;
     Game game;
+    String name;
 
     ClientManage(){}
 
@@ -77,36 +79,51 @@ public class ClientManage implements Runnable{
             }
         }
     }
-    private void handleMessage(String message) throws IOException {
+    private void handleMessage(String message) {
         String[] strings=message.split("/");
-        if(strings[0].equals("signin")){
-            if(strings[1].equals("successfull")){
-                initGame();
-            }
-            else{
-                if(strings[1].equals("user_already_exist"))createAlert("This UserName Already Used!");
-                else createAlert("SignIn Unsuccessful!");
-            }
-        }
+        switch (strings[0]) {
+            case "signin":
+                if (strings[1].equals("successfull")) {
+                    name = strings[2];
+                    initGame();
+                } else {
+                    if (strings[1].equals("user_already_exist")) createAlert("This UserName Already Used!");
+                    else createAlert("SignIn Unsuccessful!");
+                }
+                break;
 
-        else if(strings[0].equals("login")){
-            if(strings[1].equals("successful")){
-                initGame();
-            }
-            else {
-                if(strings[1].equals("invalid_pass"))createAlert("Invalid Password!");
-                if(strings[1].equals("User_Already_Online"))createAlert("You are Already Online!");
-                else createAlert("Invalid Username or Password!");
-            }
-        }
+            case "login":
+                if (strings[1].equals("successful")) {
+                    name = strings[2];
+                    initGame();
+                } else {
+                    if (strings[1].equals("invalid_pass")) createAlert("Invalid Password!");
+                    if (strings[1].equals("User_Already_Online")) createAlert("You are Already Online!");
+                    else createAlert("Invalid Username or Password!");
+                }
+                break;
 
-        else if(strings[0].equals("CREATE_GAME")){
-            if(strings[1].equals("SUCCESS")){
+            case "CREATE_GAME":
+                if (strings[1].equals("SUCCESS")) {
 //                game.setCreateGameCode(strings[2]);
+                    Platform.runLater(() -> game.setCreateGameCode(strings[2]));
+                }
+                break;
+
+            case "JOIN_GAME":
+                if (strings[1].equals("SUCCESS")) {
+                    Platform.runLater(() -> {
+                        game.createNewGame(strings[2].equals("WHITE"), Integer.parseInt(strings[3]), Integer.parseInt(strings[4]));
+                    });
+                } else {
+                    Platform.runLater(() -> game.setJoinGameNotification(strings[1]));
+                }
+                break;
+            case "GAME":
+                if(strings[3].equals(name)) return;
                 Platform.runLater(() -> {
-                    game.setCreateGameCode(strings[2]);
+                    game.selectItem(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]));
                 });
-            }
         }
     }
 
@@ -114,9 +131,8 @@ public class ClientManage implements Runnable{
         Platform.runLater(
             ()->{
                 stage.close();
-                game = new Game();
+                game = new Game(this);
                 game.init();
-                game.setClient(this);
             }
         );
     }
@@ -130,5 +146,8 @@ public class ClientManage implements Runnable{
     GamePaneController gamePaneController;
     public void setGamePaneController() {
         this.gamePaneController = gamePaneController;
+    }
+    public String getName(){
+        return name;
     }
 }

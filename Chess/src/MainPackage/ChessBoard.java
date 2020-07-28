@@ -40,6 +40,9 @@ public class ChessBoard {
     public boolean isWhiteRookMoved2=false;
     public boolean isBlackRookMoved1=false;
     public boolean isBlackRookMoved2=false;
+    public static final boolean OFFLINE_PRACTICE = true;
+    public static final boolean ONLINE_MATCH = false;
+    private boolean mode;
 
     ClientManage client;
 
@@ -74,7 +77,7 @@ public class ChessBoard {
                 stackPanes[i][j].setPrefHeight(60);
                 stackPanes[i][j].getChildren().addAll(labels[i][j],panes[i][j]);
 
-                stackPanes[i][j].setOnMouseClicked(e -> onStackPaneSelected(finalI, finalJ));
+                stackPanes[i][j].setOnMouseClicked(e -> onStackPaneSelected(finalI, finalJ, true));
                 hBoxes[i].getChildren().add(stackPanes[i][j]);
             }
             vBox.getChildren().add(hBoxes[i]);
@@ -146,8 +149,10 @@ public class ChessBoard {
         placeItem(chessItems[indexRow][indexCol], posRow, posCol, indexRow, indexCol,itemtype);
     }
 
-    private void onStackPaneSelected(int i, int j){
+    public void onStackPaneSelected(int i, int j, boolean offlineMove){
+
         //printBoard();
+        if(mode == ONLINE_MATCH && offlineMove) sendToMessage("GAME/"+i+"/"+j+"/"+client.getName());
         if((lastX != -1 && lastY != -1) || (lastX == i && lastY == j) || lastMove){
             if(lastMovedItem != null) colorPossibleMoves(lastMovedItem, false);
             removeColor(lastX, lastY);
@@ -492,6 +497,10 @@ public class ChessBoard {
         else return false;
     }
 
+    public void setMode(boolean mode) {
+        mode = mode;
+    }
+
     enum COLOR{
         WHITE_SQUARE("EEEED2"),
         BLACK_SQUARE("769655"),
@@ -575,7 +584,7 @@ public class ChessBoard {
             isWhiteTurn=true;
         }
 
-        doARotation(750);
+        if(mode == OFFLINE_PRACTICE) doARotation(750);
 
         //printBoard();
     }

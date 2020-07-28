@@ -40,7 +40,7 @@ public class ServerThread implements Runnable{
                 if(strings[0].equals("signin")){
                     int i=handler.handleSignIn(msg);
                     if(i==1){
-                        dos.writeUTF("signin/successfull");
+                        dos.writeUTF("signin/successfull/"+strings[1]);
                         handler.addClient(strings[1], this);
                     }
                     else if(i==0){
@@ -57,7 +57,7 @@ public class ServerThread implements Runnable{
                             dos.writeUTF("signin/User_Already_Online");
                         }
                         else{
-                            dos.writeUTF("login/successful");
+                            dos.writeUTF("login/successful/"+strings[1]);
                             handler.addClient(strings[1], this);
                         }
                     }
@@ -74,11 +74,16 @@ public class ServerThread implements Runnable{
                 else if(strings[0].equals("JOIN_GAME")){
                     handler.joinGame(client, strings[1]);
                 }
+                else if(strings[0].equals("GAME")){
+                    client.gameMovement(msg);
+                }
             }
         } catch (IOException e) {
             System.out.println("Player Left!");
-            client.setOnline(false);
-
+            if(client != null){
+                client.setOnline(false);
+                client.setInGame(false);
+            }
             //e.printStackTrace();
         }
         finally {

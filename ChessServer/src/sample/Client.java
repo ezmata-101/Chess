@@ -73,4 +73,12 @@ public class Client {
     public void setIndex(int index) {
         this.index = index;
     }
+
+    public void gameMovement(String message) {
+        Client c = game.getPlayer1();
+        if(c.getName() == this.name){
+            c = game.getPlayer2();
+        }
+        c.sendToClient(message);
+    }
 }

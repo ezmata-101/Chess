@@ -20,6 +20,8 @@ public class Game {
         isOccurring = true;
         player1.setInGame(true);
         player2.setInGame(true);
+        player1.setGame(this);
+        player2.setGame(this);
     }
 
     public Client getPlayer1() {

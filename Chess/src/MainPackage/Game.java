@@ -2,8 +2,8 @@ package MainPackage;
 
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -15,10 +15,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.ResourceBundle;
 
 public class Game {
     private Pane chessBoardPane = new Pane();
@@ -38,9 +36,6 @@ public class Game {
     /*Game(DatabaseUserManage ds){
         this.ds = ds;
     }*/
-    Game(){
-        chessBoard = new ChessBoard();
-    }
     Game(ClientManage client){
         this.client = client;
         chessBoard = new ChessBoard(client);
@@ -71,7 +66,7 @@ public class Game {
         mainPane.setCenter(chessBoardPane);
         //controller.setBorderPane(mainPane);
 
-        ArrayList<Integer> list = new ArrayList<Integer>();
+        ArrayList<Integer> list = new ArrayList<>();
         for (int i=1; i<51; i++) {
             list.add(i);
         }
@@ -91,7 +86,7 @@ public class Game {
         showMenu();
     }
     public void initPracticeOffline(){
-        ArrayList<Integer> list = new ArrayList<Integer>();
+        ArrayList<Integer> list = new ArrayList<>();
         for (int i=1; i<51; i++) {
             list.add(i);
         }
@@ -152,14 +147,17 @@ public class Game {
         menuPane.setDisable(false);
         menuPane.setVisible(true);
     }
-    public void hideMenu(){
+
+    public void hidePane(Node node, double from){
         TranslateTransition tt = new TranslateTransition(Duration.millis(750));
         tt.setFromX(20);
         tt.setToX(20);
-        tt.setFromY(mainPane.getHeight() - 155);
+        tt.setFromY(from);
         tt.setToY(mainPane.getHeight());
-        tt.setNode(menuPane);
+        tt.setNode(node);
         tt.play();
+        node.setDisable(true);
+        node.setVisible(false);
     }
 
     public StackPane createNewGamePane(String code){
@@ -275,7 +273,8 @@ public class Game {
     public void showCreateGamePane(){
 //        System.out.println("Called!");
         //anchorPane.getChildren().add(createGamePane);
-        hideMenu();
+//        hideMenu();
+        hidePane(menuPane, 300);
         setCreateGameCode("loading...");
         TranslateTransition tt = new TranslateTransition(Duration.millis(1000));
         tt.setFromX(40);
@@ -293,7 +292,7 @@ public class Game {
 
     public StackPane createJoinGamePane(){
 
-        HBox hBox1, hBox2, hBox3, hBox4, hBox5, hBox6;
+        HBox hBox1, hBox2, hBox3, hBox4, hBox5;
 
         Text join_game = new Text("Join Game");
         join_game.setStyle("-fx-font-size: 36;"+
@@ -322,6 +321,8 @@ public class Game {
         hBox3.setPrefHeight(25);
 
         joinGameNotification = new Text("");
+        joinGameNotification.setStyle("-fx-fill: darkred;"+
+                "-fx-font-size: 24;");
         hBox4 = new HBox(joinGameNotification);
         hBox4.setPrefHeight(50);
 
@@ -355,7 +356,8 @@ public class Game {
     public void showJoinGamePane(){
 //        System.out.println("Called!");
         //anchorPane.getChildren().add(createGamePane);
-        hideMenu();
+//        hideMenu();
+        hidePane(menuPane, 300);
         TranslateTransition tt = new TranslateTransition(Duration.millis(1000));
         joinGamePane.setDisable(false);
         tt.setFromX(40);
@@ -373,8 +375,8 @@ public class Game {
         client.sendToServer("JOIN_GAME/"+code);
     }
 
-    public Pane getPane(){
-        return menuPane;
+    public void setJoinGameNotification(String notification){
+        joinGameNotification.setText(notification);
     }
 
     private void joinGame() {
@@ -383,15 +385,33 @@ public class Game {
 
     private void practiceOffline() {
         chessBoard = new ChessBoard(client);
+        chessBoard.setMode(ChessBoard.OFFLINE_PRACTICE);
         chessBoardPane = chessBoard.createMainPane();
         mainPane.setCenter(chessBoardPane);
-        hideMenu();
+        //hideMenu();
+        hidePane(menuPane, 300);
         initPracticeOffline();
     }
     public void createGame(){
         showCreateGamePane();
     }
-    public void setClient(ClientManage client){
-        this.client = client;
+
+    public void createNewGame(boolean white, int turn, int playerNum) {
+        chessBoard = new ChessBoard(client);
+        chessBoard.setMode(ChessBoard.ONLINE_MATCH);
+        chessBoardPane = chessBoard.createMainPane();
+        mainPane.setCenter(chessBoardPane);
+
+        if(playerNum == 1) hidePane(createGamePane, 90);
+        else hidePane(joinGamePane, 90);
+
+        chessBoard.distributeItems(1, turn+1);
+        System.out.println("Distributed");
+        if(!white) chessBoard.doARotation(100);
+        chessBoard.showFirstTurnStatus();
+    }
+
+    public void selectItem(int i, int j) {
+        chessBoard.onStackPaneSelected(i, j, false);
     }
 }

@@ -46,8 +46,8 @@ public class ClientThread implements Runnable{
                 Platform.runLater(
                         ()->{
                             stage.close();
-                            game = new Game();
-                            game.init();
+//                            game = new Game();
+//                            game.init();
                         }
                 );
             }
@@ -78,8 +78,8 @@ public class ClientThread implements Runnable{
                 Platform.runLater(
                         ()->{
                             stage.close();
-                            game = new Game();
-                            game.init();
+//                            game = new Game();
+//                            game.init();
                         }
                 );
             }

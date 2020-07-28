@@ -120,10 +120,10 @@ public class MessageHandler {
                 Game game = games.get(i);
                 Client player1 = game.getPlayer1();
                 if(game.getPlayer1().getName().equals(player2.getName())){
-                    player2.sendToClient("JOIN_GAME/FAILED/SAME_PLAYER");
+                    player2.sendToClient("JOIN_GAME/SAME_PLAYER");
                     return;
                 }
-                game.setPlayer2(player2);
+                game.addPlayer2(player2);
                 String message = "JOIN_GAME/SUCCESS/";
                 String message2 = "JOIN_GAME/SUCCESS/";
 
@@ -138,7 +138,11 @@ public class MessageHandler {
                 //int firstTurn = //Math.abs(game.getFirstTurn()-1);
                 int firstTurn = game.getFirstTurn();
                 message2+=firstTurn;
-                message+=Math.abs(firstTurn - 1);
+                message+=firstTurn;
+
+                message+="/2";
+                message2+="/1";
+
                 player2.sendToClient(message);
                 player1.sendToClient(message2);
                 return;
