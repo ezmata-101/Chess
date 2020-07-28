@@ -84,7 +84,7 @@ public class ClientManage implements Runnable{
                 initGame();
             }
             else{
-                if(strings[1].equals("user_already_exist"))createAlert("This UserName Already Exists!");
+                if(strings[1].equals("user_already_exist"))createAlert("This UserName Already Used!");
                 else createAlert("SignIn Unsuccessful!");
             }
         }
@@ -95,14 +95,18 @@ public class ClientManage implements Runnable{
             }
             else {
                 if(strings[1].equals("invalid_pass"))createAlert("Invalid Password!");
+                if(strings[1].equals("User_Already_Online"))createAlert("You are Already Online!");
                 else createAlert("Invalid Username or Password!");
             }
         }
 
-        else if(strings[0].equals("GAME_CREATE")){
-            Platform.runLater(() -> {
-                game.setCreateGameCode(strings[1]);
-            });
+        else if(strings[0].equals("CREATE_GAME")){
+            if(strings[1].equals("SUCCESS")){
+//                game.setCreateGameCode(strings[2]);
+                Platform.runLater(() -> {
+                    game.setCreateGameCode(strings[2]);
+                });
+            }
         }
     }
 

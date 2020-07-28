@@ -12,8 +12,12 @@ public class ServerThread implements Runnable{
     MessageHandler handler;
     DataInputStream dis;
     DataOutputStream dos;
+    private Client client;//Not used may be...
+    int indexId;
+    boolean isOnline;
 
     public ServerThread(Socket s,MessageHandler handler){
+        isOnline = false;
         this.s=s;
         t=new Thread(this);
         this.handler=handler;
@@ -37,6 +41,7 @@ public class ServerThread implements Runnable{
                     int i=handler.handleSignIn(msg);
                     if(i==1){
                         dos.writeUTF("signin/successfull");
+                        handler.addClient(strings[1], this);
                     }
                     else if(i==0){
                         dos.writeUTF("signin/unsuccessfull");
@@ -48,7 +53,13 @@ public class ServerThread implements Runnable{
                 else if(strings[0].equals("login")){
                     int i=handler.handleLogIn(msg);
                     if(i==1){
-                        dos.writeUTF("login/successful");
+                        if(handler.isOnline(strings[1])){
+                            dos.writeUTF("signin/User_Already_Online");
+                        }
+                        else{
+                            dos.writeUTF("login/successful");
+                            handler.addClient(strings[1], this);
+                        }
                     }
                     else if(i==0){
                         dos.writeUTF("login/invalid_pass");
@@ -58,12 +69,15 @@ public class ServerThread implements Runnable{
                     }
                 }
                 else if(strings[0].equals("CREATE_NEW_GAME")){
-                    System.out.println("Dhukeche!");
-                    sendToClient("GAME_CREATE/aksh001");
+                    handler.createNewGame(client, strings[1]);
+                }
+                else if(strings[0].equals("JOIN_GAME")){
+                    handler.joinGame(client, strings[1]);
                 }
             }
         } catch (IOException e) {
             System.out.println("Player Left!");
+            client.setOnline(false);
 
             //e.printStackTrace();
         }
@@ -76,12 +90,21 @@ public class ServerThread implements Runnable{
         }
     }
 
-    private void sendToClient(String message) {
+    public void sendToClient(String message) {
         try {
             dos.writeUTF(message);
             System.out.println("Sent: "+message);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public void start() {
+        isOnline = true;
+        t.start();
     }
 }

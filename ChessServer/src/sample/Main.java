@@ -10,8 +10,9 @@ public class Main {
         MessageHandler handler=new MessageHandler();
         while(true){
             Socket s=ss.accept();
-            ServerThread thread=new ServerThread(s,handler);
-            thread.t.start();
+//            ServerThread thread=new ServerThread(s,handler);
+            handler.handleTemporarily(s);
+//            thread.t.start();
         }
     }
 }
