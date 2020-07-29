@@ -3,7 +3,7 @@ package MainPackage;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import org.omg.PortableInterceptor.INACTIVE;
+//import org.omg.PortableInterceptor.INACTIVE;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,12 +19,15 @@ public class ClientManage implements Runnable{
     Thread t;
     Game game;
     String name;
+    String address;
 
-    ClientManage(){}
+    ClientManage(String address){
+        this.address=address;
+    }
 
     public boolean start(){
         try{
-            socket =  new Socket("localhost", 5000);
+            socket =  new Socket(address, 5000);
             dis = new DataInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
 //            ClientThread thread=new ClientThread(dis);

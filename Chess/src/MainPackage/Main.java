@@ -12,13 +12,22 @@ import java.util.Collections;
 
 
 public class Main extends Application {
+    String socket;
     @Override
     public void start(Stage primaryStage) throws Exception{
+        ClientNetwork clientNetwork=new ClientNetwork();
+        if(clientNetwork.init()){
+            this.socket=clientNetwork.address;
+        }
+        else{
+            System.out.println("Can't connect to DatagramSocket.");
+            return;
+        }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLS/initial_layout.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("/FXMLS/main.fxml"));
         Parent root = loader.load();
         InitialController controller = loader.getController();
-        ClientManage client = new ClientManage();
+        ClientManage client = new ClientManage(socket);
         if(client.start()){
             System.out.println("Client Manager Started Successfully");
         }else {

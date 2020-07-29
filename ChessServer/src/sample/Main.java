@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         ServerSocket ss=new ServerSocket(5000);
         MessageHandler handler=new MessageHandler();
+        ServerNetwork serverNetwork=new ServerNetwork();
         while(true){
             Socket s=ss.accept();
 //            ServerThread thread=new ServerThread(s,handler);

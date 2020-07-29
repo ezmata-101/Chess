@@ -588,6 +588,66 @@ public class ChessBoard {
 
         //printBoard();
     }
+    public void lastRowMoveItem(int fromX, int fromY, int toX, int toY) {
+        panes[fromX][fromY].getChildren().clear();
+        labels[fromX][fromY].setText("-1,-1");
+        placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
+        chessItems[lastIndexRow][lastIndexCol].setEverMoved(true);
+        itemcolor[fromX][fromY]=-1;//Jeheto ei jayga ta khali hoia jabe tai value -1 korlam
+        itemtype[fromX][fromY]=-1;//Same kahini eitar jonno o
+        //panes[toX][toY].setStyle("-fx-background-color: #F6F782");
+        colorPane(toX, toY, COLOR.LAST_MOVED);
+        lastMove = true;
+        lastX = toX;
+        lastY = toY;
+        Checkmate checkmate1=new Checkmate(this,!isWhiteTurn,!isBlackTurn);
+
+        if(checkmate1.checkingCheckMate()){
+            if(isBlackKingChecked){
+                a.setAlertType(Alert.AlertType.WARNING);
+                a.setContentText("Black KIng checkmate");
+                a.show();
+                isBlackKingChecked=false;
+            }
+            else if(isWhiteKingChecked){
+                a.setAlertType(Alert.AlertType.WARNING);
+                a.setContentText("White king checkmate");
+                a.show();
+                isWhiteKingChecked=false;
+            }
+        }
+
+
+        Checkmate checkmate2=new Checkmate(this,isWhiteTurn,isBlackTurn);
+        if(checkmate2.checkingCheckMate()){
+            if(isWhiteTurn){
+                isBlackKingChecked=true;
+                isWhiteKingChecked=false;
+                a.setAlertType(Alert.AlertType.WARNING);
+                a.setContentText("Black KIng check");
+                a.show();
+            }
+            else if(isBlackTurn){
+                isWhiteKingChecked=true;
+                isBlackKingChecked=false;
+                a.setAlertType(Alert.AlertType.WARNING);
+                a.setContentText("White KIng check");
+                a.show();
+            }
+        }
+        if(isWhiteTurn){
+            isWhiteTurn=false;
+            isBlackTurn=true;
+        }
+        else if(isBlackTurn){
+            isBlackTurn=false;
+            isWhiteTurn=true;
+        }
+
+        if(mode == OFFLINE_PRACTICE) doARotation(750);
+
+        //printBoard();
+    }
 
     private void doRotate(Node node, int time){
         RotateTransition rt = new RotateTransition();
