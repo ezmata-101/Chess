@@ -1,6 +1,8 @@
 package MainPackage;
 
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -12,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
@@ -82,6 +85,13 @@ public class Game {
         primaryStage.setTitle("Chess");
         primaryStage.setScene(new Scene(anchorPane));
         primaryStage.show();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent windowEvent) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
 //        System.out.println(primaryStage.getWidth()+", "+primaryStage.getHeight());
 
         showMenu();

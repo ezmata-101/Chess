@@ -78,7 +78,7 @@ public class PawnOppositeController implements Initializable {
         this.toY=i;
     }
     public void createImageOfPieces(int color) throws FileNotFoundException {
-        String path="Resourse\\";
+        String path="Resource\\";
         if(color==0){
             path+="Black\\";
         }

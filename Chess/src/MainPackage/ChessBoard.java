@@ -360,29 +360,6 @@ public class ChessBoard {
         //System.out.println(i+","+j);
     }
 
-   /* private void createImageOfPieces(int color,PawnOppositeController pawnOppositeController) throws FileNotFoundException {
-        String path="Resourse\\";
-        if(color==0){
-            path+="Black\\";
-        }
-        else{
-            path+="White\\";
-        }
-        Image img;
-        img=new Image(new FileInputStream(path+"rook.png"));
-        pawnOppositeController.img1=new ImageView();
-        pawnOppositeController.img1.setImage(img);
-        img=new Image(new FileInputStream(path+"bishop.png"));
-        pawnOppositeController.img2=new ImageView();
-        pawnOppositeController.img2.setImage(img);
-        img=new Image(new FileInputStream(path+"queen.png"));
-        pawnOppositeController.img3=new ImageView();
-        pawnOppositeController.img3.setImage(img);
-        img=new Image(new FileInputStream(path+"knight.png"));
-        pawnOppositeController.img4=new ImageView();
-        pawnOppositeController.img4.setImage(img);
-    }*/
-
     private boolean checkAndDoACastle(int fromX, int fromY, int toX, int toY) {
         if(Math.abs(fromY - toY) !=2 || fromX != toX){
             System.out.println("Returning false for distance!");
@@ -560,7 +537,7 @@ public class ChessBoard {
     }
 
     public void setMode(boolean mode) {
-        mode = mode;
+        this.mode = mode;
     }
 
     enum COLOR{
@@ -632,12 +609,14 @@ public class ChessBoard {
                 a.setContentText("Black KIng checkmate");
                 a.show();
                 isBlackKingChecked=false;
+                sendToMessage("Checkmate/Black");
             }
             else if(isWhiteKingChecked){
                 a.setAlertType(Alert.AlertType.WARNING);
                 a.setContentText("White king checkmate");
                 a.show();
                 isWhiteKingChecked=false;
+                sendToMessage("Checkmate/White");
             }
         }
 
