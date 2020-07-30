@@ -38,7 +38,7 @@ public class PawnOppositeController implements Initializable {
         stage.close();
         System.out.println("Item no set to 1");
         Platform.runLater(()->{
-                board.moveItem(board.lastX,board.lastY,tox,toY,1);
+                board.moveItem(board.lastX,board.lastY,tox,toY,1, true);
         });
     }
     public void onImg2Clicked(MouseEvent event){
@@ -47,7 +47,7 @@ public class PawnOppositeController implements Initializable {
         stage.close();
         System.out.println("Item no set to 3");
         Platform.runLater(()->{
-            board.moveItem(board.lastX,board.lastY,tox,toY,3);
+            board.moveItem(board.lastX,board.lastY,tox,toY,3, true);
         });
     }
     public void onImg3Clicked(MouseEvent event){
@@ -56,7 +56,7 @@ public class PawnOppositeController implements Initializable {
         stage.close();
         System.out.println("Item no set to 2");
         Platform.runLater(()->{
-            board.moveItem(board.lastX,board.lastY,tox,toY,2);
+            board.moveItem(board.lastX,board.lastY,tox,toY,2, true);
         });
     }
     public void onImg4Clicked(MouseEvent event){
@@ -65,7 +65,7 @@ public class PawnOppositeController implements Initializable {
         stage.close();
         System.out.println("Item no set to 4");
         Platform.runLater(()->{
-            board.moveItem(board.lastX,board.lastY,tox,toY,4);
+            board.moveItem(board.lastX,board.lastY,tox,toY,4, true);
         });
     }
     public void setChessBoard(ChessBoard board){
@@ -77,7 +77,7 @@ public class PawnOppositeController implements Initializable {
     public void setToY(int i){
         this.toY=i;
     }
-    public void createImageOfPieces(int color) throws FileNotFoundException {
+    public void createImageOfPieces(int color){
         String path="Resource\\";
         if(color==0){
             path+="Black\\";
@@ -86,13 +86,18 @@ public class PawnOppositeController implements Initializable {
             path+="White\\";
         }
         Image img;
-        img=new Image(new FileInputStream(path+"rook.png"));
-        img1.setImage(img);
-        img=new Image(new FileInputStream(path+"bishop.png"));
-        img2.setImage(img);
-        img=new Image(new FileInputStream(path+"queen.png"));
-        img3.setImage(img);
-        img=new Image(new FileInputStream(path+"knight.png"));
-        img4.setImage(img);
+        try {
+            img=new Image(new FileInputStream(path+"rook.png"));
+            img1.setImage(img);
+            img=new Image(new FileInputStream(path+"bishop.png"));
+            img2.setImage(img);
+            img=new Image(new FileInputStream(path+"queen.png"));
+            img3.setImage(img);
+            img=new Image(new FileInputStream(path+"knight.png"));
+            img4.setImage(img);
+        } catch (FileNotFoundException e) {
+            System.out.println("File Not Found...");
+            e.printStackTrace();
+        }
     }
 }

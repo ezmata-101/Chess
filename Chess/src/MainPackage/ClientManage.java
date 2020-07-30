@@ -127,8 +127,9 @@ public class ClientManage implements Runnable{
                 if(strings[3].equals(name)) return;
                 Platform.runLater(() -> {
                     try {
-                        game.selectItem(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]));
-                    } catch (FileNotFoundException e) {
+                        //game.selectItem(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]));
+                        game.moveItem(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]), Integer.parseInt(strings[3]), Integer.parseInt(strings[4]), Integer.parseInt(strings[5]));
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });

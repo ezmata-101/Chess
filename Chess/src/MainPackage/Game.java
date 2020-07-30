@@ -36,10 +36,10 @@ public class Game {
     HBox bottomBox;
     TextField codeField;
     Text joinGameNotification;
-
     /*Game(DatabaseUserManage ds){
         this.ds = ds;
     }*/
+
     Game(ClientManage client){
         this.client = client;
         chessBoard = new ChessBoard(client);
@@ -111,7 +111,9 @@ public class Game {
             chessBoard.distributeItems(1,2);
         }
         chessBoard.showFirstTurnStatus();
-        if(x) chessBoard.doARotation(100);
+        if(x){
+            chessBoard.doARotation(100);
+        }
     }
 
 
@@ -147,6 +149,8 @@ public class Game {
         return pane;
     }
     public void showMenu(){
+        if(createGamePane.isVisible()) hidePane(createGamePane, 90);
+        if(joinGamePane.isVisible()) hidePane(createGamePane, 90);
         System.out.println("Called!");
         TranslateTransition tt = new TranslateTransition(Duration.millis(750));
         tt.setFromX(20);
@@ -417,12 +421,19 @@ public class Game {
         else hidePane(joinGamePane, 90);
 
         chessBoard.distributeItems(1, turn+1);
+        chessBoard.setPlayerColor(white);
         System.out.println("Distributed");
-        if(!white) chessBoard.doARotation(100);
+        if(!white) {
+            chessBoard.doARotation(100);
+        }
         chessBoard.showFirstTurnStatus();
     }
 
     public void selectItem(int i, int j) throws FileNotFoundException {
         chessBoard.onStackPaneSelected(i, j, false);
+    }
+
+    public void moveItem(int fromX, int fromY, int toX, int toY, int x){
+        chessBoard.createMovement(fromX, fromY, toX, toY, x, false);
     }
 }

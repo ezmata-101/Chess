@@ -57,7 +57,7 @@ public class MessageHandler {
         for(int i=0; i<clients.size(); i++){
             if(name.equals(clients.get(i).getName())){
                 if(clients.get(i).isOnline())return true;
-                return false;
+//                return false;
             }
         }
         return false;
