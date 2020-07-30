@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -125,7 +126,11 @@ public class ClientManage implements Runnable{
             case "GAME":
                 if(strings[3].equals(name)) return;
                 Platform.runLater(() -> {
-                    game.selectItem(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]));
+                    try {
+                        game.selectItem(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 });
         }
     }

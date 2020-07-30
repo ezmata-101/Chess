@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="244.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPackage.PawnOppositeController">
+    <children>
+        <Label alignment="CENTER" layoutX="-2.0" prefHeight="17.0" prefWidth="426.0" text="Select a piece">
+            <font>
+                <Font name="System Bold Italic" size="14.0" />
+            </font>
+        </Label>
+        <HBox layoutY="28.0" prefHeight="100.0" prefWidth="404.0" spacing="10.0" AnchorPane.bottomAnchor="114.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <children>
+                <VBox alignment="TOP_CENTER" prefHeight="82.0" prefWidth="186.0">
+                    <children>
+                        <ImageView fx:id="img1" fitHeight="60.0" fitWidth="120.0" onMouseClicked="#onImg1Clicked" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../Resource/Black/rook.png" />
+                            </image></ImageView>
+                        <Label text="Rook">
+                            <font>
+                                <Font name="System Bold Italic" size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="82.0" prefWidth="186.0">
+                    <children>
+                  <ImageView fx:id="img2" fitHeight="60.0" fitWidth="120.0" onMouseClicked="#onImg2Clicked" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Resource/Black/bishop.png" />
+                     </image>
+                  </ImageView>
+                        <Label text="Bishop">
+                            <font>
+                                <Font name="System Bold Italic" size="14.0" />
+                            </font>
+                        </Label>
+                    </children></VBox>
+            </children>
+        </HBox>
+        <HBox layoutX="10.0" layoutY="138.0" prefHeight="100.0" prefWidth="404.0" spacing="10.0">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <children>
+                <VBox alignment="TOP_CENTER" prefHeight="80.0" prefWidth="184.0">
+                    <children>
+                        <ImageView fx:id="img3" fitHeight="60.0" fitWidth="120.0" onMouseClicked="#onImg3Clicked" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Resource/Black/queen.png" />
+                     </image></ImageView>
+                        <Label text="Queen">
+                            <font>
+                                <Font name="System Bold Italic" size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="80.0" prefWidth="191.0">
+                    <children>
+                        <ImageView fx:id="img4" fitHeight="60.0" fitWidth="120.0" onMouseClicked="#onImg4Clicked" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Resource/Black/knight.png" />
+                     </image></ImageView>
+                        <Label text="Knight">
+                            <font>
+                                <Font name="System Bold Italic" size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

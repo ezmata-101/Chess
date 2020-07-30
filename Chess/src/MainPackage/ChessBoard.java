@@ -1,14 +1,22 @@
 package MainPackage;
 
 import javafx.animation.RotateTransition;
+import javafx.animation.TranslateTransition;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 public class ChessBoard {
@@ -20,7 +28,7 @@ public class ChessBoard {
     private HBox[] hBoxes = new HBox[8];
     public ChessItem[][] chessItems = new ChessItem[2][16];
     private ImageView[][] images = new ImageView[8][8];
-    private int lastX =-1, lastY=-1, lastIndexRow, lastIndexCol;
+    public int lastX =-1, lastY=-1, lastIndexRow, lastIndexCol;
     private boolean isSelected = false;
     private boolean lastMove = false;
     public int[][] itemcolor=new int[8][8];//Eita hoilo prottekta position e jodi element thake taile ki color er element tar jonno
@@ -43,6 +51,8 @@ public class ChessBoard {
     public static final boolean OFFLINE_PRACTICE = true;
     public static final boolean ONLINE_MATCH = false;
     private boolean mode;
+    private FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/FXMLS/PawnInOpposite.fxml"));
+    private Controller controller;
 
     ClientManage client;
 
@@ -77,7 +87,13 @@ public class ChessBoard {
                 stackPanes[i][j].setPrefHeight(60);
                 stackPanes[i][j].getChildren().addAll(labels[i][j],panes[i][j]);
 
-                stackPanes[i][j].setOnMouseClicked(e -> onStackPaneSelected(finalI, finalJ, true));
+                stackPanes[i][j].setOnMouseClicked(e -> {
+                    try {
+                        onStackPaneSelected(finalI, finalJ, true);
+                    } catch (FileNotFoundException ex) {
+                        System.out.println("Stackpane can't be initialized");
+                    }
+                });
                 hBoxes[i].getChildren().add(stackPanes[i][j]);
             }
             vBox.getChildren().add(hBoxes[i]);
@@ -149,7 +165,7 @@ public class ChessBoard {
         placeItem(chessItems[indexRow][indexCol], posRow, posCol, indexRow, indexCol,itemtype);
     }
 
-    public void onStackPaneSelected(int i, int j, boolean offlineMove){
+    public void onStackPaneSelected(int i, int j, boolean offlineMove) throws FileNotFoundException {
 
         //printBoard();
         if(mode == ONLINE_MATCH && offlineMove) sendToMessage("GAME/"+i+"/"+j+"/"+client.getName());
@@ -172,10 +188,10 @@ public class ChessBoard {
     //        System.out.println(x+ " "+ y +" " +item.color+ " "+ i + " "+ j);
 
             //Jodi element ta Knight hoy taile eita run hbe
-            if(item.type.getFileName()=="knight"){
+            if(item.type.getFileName().equals("knight")){
                 Knight knight=new Knight(x,y,this,item.color,i,j);
                 if(knight.moveKnight()){
-                    moveItem(lastX,lastY,i,j);
+                    moveItem(lastX,lastY,i,j,0);
                 }
                 else{
                     a.setAlertType(Alert.AlertType.WARNING);
@@ -185,10 +201,10 @@ public class ChessBoard {
             }
 
             //R jodi bishop hoy taile eita
-            if(item.type.getFileName()=="bishop"){
+            if(item.type.getFileName().equals("bishop")){
                 Bishop bishop=new Bishop(x,y,itemcolor,itemtype,item.color,i,j);
                 if(bishop.moveBishop()){
-                    moveItem(lastX,lastY,i,j);
+                    moveItem(lastX,lastY,i,j,0);
                 }
                 else{
                     a.setAlertType(Alert.AlertType.WARNING);
@@ -198,7 +214,7 @@ public class ChessBoard {
             }
 
             /**For rook**/
-            if(item.type.getFileName()=="rook"){
+            if(item.type.getFileName().equals("rook")){
                 Rook rook=new Rook(x,y,itemcolor,itemtype,item.color,i,j);
                 if(rook.moveRook()){
                     if(isBlackRookMoved1==false && item.color==0 && x==0 && y==0){
@@ -213,7 +229,7 @@ public class ChessBoard {
                     if(isWhiteRookMoved2==false && item.color==1 && x==7 && y==7){
                         isWhiteRookMoved2=true;
                     }
-                    moveItem(lastX,lastY,i,j);
+                    moveItem(lastX,lastY,i,j,0);
                 }
                 else{
                     a.setAlertType(Alert.AlertType.WARNING);
@@ -222,10 +238,10 @@ public class ChessBoard {
                 }
             }
             /**For queen**/
-            if(item.type.getFileName()=="queen"){
+            if(item.type.getFileName().equals("queen")){
                 Queen queen=new Queen(x,y,itemcolor,itemtype,item.color,i,j);
                 if(queen.moveQueen()){
-                    moveItem(lastX,lastY,i,j);
+                    moveItem(lastX,lastY,i,j,0);
                 }
                 else{
                     a.setAlertType(Alert.AlertType.WARNING);
@@ -234,10 +250,50 @@ public class ChessBoard {
                 }
             }
             /**For pawn**/
-            if(item.type.getFileName()=="pawn"){
+            if(item.type.getFileName().equals("pawn")){
                 Pawn pawn=new Pawn(x,y,itemcolor,itemtype,item.color,i,j);
                 if(pawn.movePawn()){
-                    moveItem(lastX,lastY,i,j);
+                    if((item.color==0 && i==7) || (item.color==1 && i==0)){
+                        Parent root= null;
+                        try {
+                            root = fxmlLoader.load();
+                        } catch (IOException e) {
+                            System.out.println("Can't load pawn's fxml.");
+                        }
+                        PawnOppositeController pawnOppositeController=fxmlLoader.getController();
+                        /*Stage stage=new Stage();
+                        stage.setTitle("Chess");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                        int itemNo=pawnOppositeController.getItemNo();
+                        System.out.println("Item No is : "+itemNo);
+                        if(itemNo==1){
+                            moveItem(lastX,lastY,i,j,1);
+                        }
+                        else if(itemNo==2){
+                            moveItem(lastX,lastY,i,j,2);
+                        }
+                        else if(itemNo==3){
+                            moveItem(lastX,lastY,i,j,3);
+                        }
+                        else if(itemNo==4){
+                            moveItem(lastX,lastY,i,j,4);
+                        }
+                        else{
+                            moveItem(lastX,lastY,i,j,0);
+                        }*/
+                        pawnOppositeController.setChessBoard(this);
+                        pawnOppositeController.settoX(i);
+                        pawnOppositeController.setToY(j);
+                        Stage stage=new Stage();
+                        stage.setTitle("Chess");
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    }
+                    else{
+                        moveItem(lastX,lastY,i,j,0);
+                    }
+
                 }
                 else{
                     a.setAlertType(Alert.AlertType.WARNING);
@@ -246,7 +302,7 @@ public class ChessBoard {
                 }
             }
             /**For king**/
-            if(item.type.getFileName()=="king"){
+            if(item.type.getFileName().equals("king")){
                 King king=new King(x,y,itemcolor,itemtype,item.color,i,j);
                 if(king.moveKing()){
                     if(isBlackKingMoved==false && item.color==0){
@@ -255,7 +311,7 @@ public class ChessBoard {
                     if(isWhiteKingMoved==false && item.color==1){
                         isWhiteKingMoved=true;
                     }
-                    moveItem(lastX,lastY,i,j);
+                    moveItem(lastX,lastY,i,j,0);
                 }
                 else if(checkAndDoACastle(x, y, i, j)){
                     a.setAlertType(AlertType.CONFIRMATION);
@@ -360,16 +416,16 @@ public class ChessBoard {
         }
         System.out.println("Everything passed");
 
-        moveItem(fromX, fromY, toX, toY);
+        moveItem(fromX, fromY, toX, toY,0);
         lastIndexRow = rookIndX;
         lastIndexCol = rookIndY;
         lastX = rook.getPosX();
         lastY = rook.getPosY();
         if(pls>0){
-            moveItem(fromX, 7, fromX, 5);
+            moveItem(fromX, 7, fromX, 5,0);
         }
         else{
-            moveItem(fromX, 0, fromX, 3);
+            moveItem(fromX, 0, fromX, 3,0);
         }
 
         if(king.getColor() == ChessItem.WHITE){
@@ -528,11 +584,29 @@ public class ChessBoard {
         else panes[i][j].setStyle(COLOR.BLACK_SQUARE.setColor());
     }
 
-    public void moveItem(int fromX, int fromY, int toX, int toY) {
+    public void moveItem(int fromX, int fromY, int toX, int toY,int x) {
         panes[fromX][fromY].getChildren().clear();
         labels[fromX][fromY].setText("-1,-1");
-        placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
         chessItems[lastIndexRow][lastIndexCol].setEverMoved(true);
+        if(x==0){
+            placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
+        }
+        else if(x==1){
+            ChessItem item=new ChessItem(chessItems[lastIndexRow][lastIndexCol].color,ChessItem.CHESS_ITEM.ROOK);
+            placeItem(item, toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
+        }
+        else if(x==2){
+            ChessItem item=new ChessItem(chessItems[lastIndexRow][lastIndexCol].color,ChessItem.CHESS_ITEM.QUEEN);
+            placeItem(item, toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
+        }
+        else if(x==3){
+            ChessItem item=new ChessItem(chessItems[lastIndexRow][lastIndexCol].color,ChessItem.CHESS_ITEM.BISHOP);
+            placeItem(item, toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
+        }
+        else if(x==4){
+            ChessItem item=new ChessItem(chessItems[lastIndexRow][lastIndexCol].color,ChessItem.CHESS_ITEM.KNIGHT);
+            placeItem(item, toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
+        }
         itemcolor[fromX][fromY]=-1;//Jeheto ei jayga ta khali hoia jabe tai value -1 korlam
         itemtype[fromX][fromY]=-1;//Same kahini eitar jonno o
         //panes[toX][toY].setStyle("-fx-background-color: #F6F782");
@@ -699,4 +773,27 @@ public class ChessBoard {
             System.out.println("ERROR: "+e.getMessage());
         }
     }
+    /*public void showPane(AnchorPane anchorPane){
+        System.out.println("Showing pawn changing pane");
+        TranslateTransition tt = new TranslateTransition(Duration.millis(1500));
+        tt.setFromX(-500);
+        tt.setToX(30);
+        tt.setFromY(100);
+        tt.setToY(100);
+        tt.setNode(anchorPane);
+        tt.play();
+        anchorPane.setDisable(false);
+        anchorPane.setVisible(true);
+        System.out.println("Showing done");
+    }
+    public void hidePane(AnchorPane anchorPane){
+        System.out.println("Removing pawn changing pane");
+        TranslateTransition tt = new TranslateTransition(Duration.millis(1500));
+        tt.setFromX(30);
+        tt.setToX(500);
+        tt.setFromY(100);
+        tt.setToY(100);
+        tt.setNode(anchorPane);
+        tt.play();
+    }*/
 }

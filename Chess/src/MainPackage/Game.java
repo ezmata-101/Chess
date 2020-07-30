@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -411,7 +412,7 @@ public class Game {
         chessBoard.showFirstTurnStatus();
     }
 
-    public void selectItem(int i, int j) {
+    public void selectItem(int i, int j) throws FileNotFoundException {
         chessBoard.onStackPaneSelected(i, j, false);
     }
 }
