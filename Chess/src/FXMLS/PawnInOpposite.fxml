@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="244.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPackage.PawnOppositeController">
+<AnchorPane prefHeight="244.0" prefWidth="424.0" style="-fx-background-color: linear-gradient(to bottom right,#28313B,#485461);" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainPackage.PawnOppositeController">
     <children>
-        <Label alignment="CENTER" layoutX="-2.0" prefHeight="17.0" prefWidth="426.0" text="Select a piece">
+        <Label alignment="CENTER" layoutX="-2.0" prefHeight="17.0" prefWidth="426.0" text="Select a piece" textFill="#4374c8">
             <font>
                 <Font name="System Bold Italic" size="14.0" />
             </font>
@@ -24,7 +24,7 @@
                             <image>
                                 <Image url="@../../Resource/Black/rook.png" />
                             </image></ImageView>
-                        <Label text="Rook">
+                        <Label text="Rook" textFill="WHITE">
                             <font>
                                 <Font name="System Bold Italic" size="14.0" />
                             </font>
@@ -38,7 +38,7 @@
                         <Image url="@../../Resource/Black/bishop.png" />
                      </image>
                   </ImageView>
-                        <Label text="Bishop">
+                        <Label text="Bishop" textFill="WHITE">
                             <font>
                                 <Font name="System Bold Italic" size="14.0" />
                             </font>
@@ -57,7 +57,7 @@
                      <image>
                         <Image url="@../../Resource/Black/queen.png" />
                      </image></ImageView>
-                        <Label text="Queen">
+                        <Label text="Queen" textFill="WHITE">
                             <font>
                                 <Font name="System Bold Italic" size="14.0" />
                             </font>
@@ -70,7 +70,7 @@
                      <image>
                         <Image url="@../../Resource/Black/knight.png" />
                      </image></ImageView>
-                        <Label text="Knight">
+                        <Label text="Knight" textFill="WHITE">
                             <font>
                                 <Font name="System Bold Italic" size="14.0" />
                             </font>

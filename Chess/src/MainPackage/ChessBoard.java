@@ -609,14 +609,14 @@ public class ChessBoard {
                 a.setContentText("Black KIng checkmate");
                 a.show();
                 isBlackKingChecked=false;
-                sendToMessage("Checkmate/Black");
+                //sendToMessage("Checkmate/Black");
             }
             else if(isWhiteKingChecked){
                 a.setAlertType(Alert.AlertType.WARNING);
                 a.setContentText("White king checkmate");
                 a.show();
                 isWhiteKingChecked=false;
-                sendToMessage("Checkmate/White");
+                //sendToMessage("Checkmate/White");
             }
         }
 
