@@ -95,6 +95,14 @@ public class ServerThread implements Runnable{
         }
     }
 
+    public void gameControl(String message){
+        /*String[] strings=message.split("/");
+        if(strings[1].equals("LOST")){
+
+        }*/
+        /** Update and Get  er Shob function database e lekha hoise.Just kaj kora baki.Messagehandler er sahajje game jita hara control korte hbe**/
+    }
+
     public void sendToClient(String message) {
         try {
             dos.writeUTF(message);

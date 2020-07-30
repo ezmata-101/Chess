@@ -82,11 +82,11 @@ public class Game {
 
     public void dismiss(Client client) {
         if(client.getName() == player1.getName()){
-            player1.sendToClient("GAME/LOST/"+player1.getName()+"/ ");
-            player2.sendToClient("GAME/WON"+player2.getName()+"/ ");
+            player1.controlGame("GAME/LOST/"+player1.getName()+"/ ");
+            player2.controlGame("GAME/WON"+player2.getName()+"/ ");
         }else{
-            player2.sendToClient("GAME/LOST/"+player2.getName()+"/ ");
-            player1.sendToClient("GAME/WON/"+player1.getName()+"/ ");
+            player2.controlGame("GAME/LOST/"+player2.getName()+"/ ");
+            player1.controlGame("GAME/WON/"+player1.getName()+"/ ");
         }
         isOccurring = false;
     }

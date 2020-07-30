@@ -17,6 +17,7 @@ public class Client {
     public void sendToClient(String message){
         thread.sendToClient(message);
     }
+    public void controlGame(String message){ thread.gameControl(message);}
 
     public ServerThread getThread() {
         return thread;

@@ -18,6 +18,14 @@ public class DatabaseUserManage {
 
     private static final String Find_User_By_Name = "SELECT COUNT(*) FROM "+USER_INFO_TABLE+" WHERE "+NAME_COLUMN+" = ?";
     private static final String Check_Pass_By_Name = "SELECT "+PASSWORD_COLUMN+" From "+USER_INFO_TABLE+" WHERE "+NAME_COLUMN+" = ?";
+    private static final String Update_User_Lost_Game = "UPDATE "+USER_INFO_TABLE+
+            " SET "+Lose_COLUMN+" = ? "+
+            " WHERE "+NAME_COLUMN+" = ?";
+    private static final String Update_User_Win_Game = "UPDATE "+USER_INFO_TABLE+
+            " SET "+Win_COLUMN+" = ? "+
+            " WHERE "+NAME_COLUMN+" = ?";
+    private static final String Get_Win_By_Name = "SELECT "+Win_COLUMN+" FROM "+USER_INFO_TABLE+" WHERE "+NAME_COLUMN+" = ?";
+    private static final String Get_Lose_By_Name = "SELECT "+Lose_COLUMN+" FROM "+USER_INFO_TABLE+" WHERE "+NAME_COLUMN+" = ?";
 
     private static final String Insert_New_User = "INSERT INTO "+USER_INFO_TABLE+" ( " +
             NAME_COLUMN+", "+PASSWORD_COLUMN+", "+Total_Match__COLUMN+", "+Win_COLUMN +", "+Lose_COLUMN+", "+Points_COLUMN+") VALUES (?, ?, ?, ?, ?, ?)";
@@ -91,6 +99,54 @@ public class DatabaseUserManage {
             return true;
         } catch (SQLException throwables) {
             System.out.println("Adding New User FAILED...\n"+throwables.getMessage());
+            return false;
+        }
+    }
+    public int getWinByName(String name){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Get_Win_By_Name);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int count = resultSet.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            System.out.println("Can't return win game for the user...\n"+e.getMessage());
+        }
+        return 0;
+    }
+    public int getLoseByName(String name){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Get_Lose_By_Name);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int count = resultSet.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            System.out.println("Can't return lose game for the user...\n"+e.getMessage());
+        }
+        return 0;
+    }
+    public boolean updateWinForName(int id, String name){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(Update_User_Win_Game);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, name);
+            int affectedRows = preparedStatement.executeUpdate();
+            return (affectedRows == 1)? true : false;
+        }catch (Exception e){
+            System.out.println("Failed to update name...\n"+e.getMessage() );
+            return false;
+        }
+    }
+    public boolean updateLoseForName(int id, String name){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(Update_User_Lost_Game);
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, name);
+            int affectedRows = preparedStatement.executeUpdate();
+            return (affectedRows == 1)? true : false;
+        }catch (Exception e){
+            System.out.println("Failed to update name...\n"+e.getMessage() );
             return false;
         }
     }
