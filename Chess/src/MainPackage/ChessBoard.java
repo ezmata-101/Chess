@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.control.Alert;
@@ -15,6 +16,7 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -51,7 +53,6 @@ public class ChessBoard {
     public static final boolean OFFLINE_PRACTICE = true;
     public static final boolean ONLINE_MATCH = false;
     private boolean mode;
-    private FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/FXMLS/PawnInOpposite.fxml"));
     private Controller controller;
 
     ClientManage client;
@@ -254,37 +255,19 @@ public class ChessBoard {
                 Pawn pawn=new Pawn(x,y,itemcolor,itemtype,item.color,i,j);
                 if(pawn.movePawn()){
                     if((item.color==0 && i==7) || (item.color==1 && i==0)){
+                        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/FXMLS/PawnInOpposite.fxml"));
                         Parent root= null;
                         try {
                             root = fxmlLoader.load();
                         } catch (IOException e) {
                             System.out.println("Can't load pawn's fxml.");
+                            e.printStackTrace();
                         }
                         PawnOppositeController pawnOppositeController=fxmlLoader.getController();
-                        /*Stage stage=new Stage();
-                        stage.setTitle("Chess");
-                        stage.setScene(new Scene(root));
-                        stage.show();
-                        int itemNo=pawnOppositeController.getItemNo();
-                        System.out.println("Item No is : "+itemNo);
-                        if(itemNo==1){
-                            moveItem(lastX,lastY,i,j,1);
-                        }
-                        else if(itemNo==2){
-                            moveItem(lastX,lastY,i,j,2);
-                        }
-                        else if(itemNo==3){
-                            moveItem(lastX,lastY,i,j,3);
-                        }
-                        else if(itemNo==4){
-                            moveItem(lastX,lastY,i,j,4);
-                        }
-                        else{
-                            moveItem(lastX,lastY,i,j,0);
-                        }*/
                         pawnOppositeController.setChessBoard(this);
                         pawnOppositeController.settoX(i);
                         pawnOppositeController.setToY(j);
+                        pawnOppositeController.createImageOfPieces(item.color);
                         Stage stage=new Stage();
                         stage.setTitle("Chess");
                         stage.setScene(new Scene(root));
@@ -376,6 +359,29 @@ public class ChessBoard {
         lastY = j;
         //System.out.println(i+","+j);
     }
+
+   /* private void createImageOfPieces(int color,PawnOppositeController pawnOppositeController) throws FileNotFoundException {
+        String path="Resourse\\";
+        if(color==0){
+            path+="Black\\";
+        }
+        else{
+            path+="White\\";
+        }
+        Image img;
+        img=new Image(new FileInputStream(path+"rook.png"));
+        pawnOppositeController.img1=new ImageView();
+        pawnOppositeController.img1.setImage(img);
+        img=new Image(new FileInputStream(path+"bishop.png"));
+        pawnOppositeController.img2=new ImageView();
+        pawnOppositeController.img2.setImage(img);
+        img=new Image(new FileInputStream(path+"queen.png"));
+        pawnOppositeController.img3=new ImageView();
+        pawnOppositeController.img3.setImage(img);
+        img=new Image(new FileInputStream(path+"knight.png"));
+        pawnOppositeController.img4=new ImageView();
+        pawnOppositeController.img4.setImage(img);
+    }*/
 
     private boolean checkAndDoACastle(int fromX, int fromY, int toX, int toY) {
         if(Math.abs(fromY - toY) !=2 || fromX != toX){
@@ -593,18 +599,22 @@ public class ChessBoard {
         }
         else if(x==1){
             ChessItem item=new ChessItem(chessItems[lastIndexRow][lastIndexCol].color,ChessItem.CHESS_ITEM.ROOK);
+            chessItems[lastIndexRow][lastIndexCol]=item;
             placeItem(item, toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
         }
         else if(x==2){
             ChessItem item=new ChessItem(chessItems[lastIndexRow][lastIndexCol].color,ChessItem.CHESS_ITEM.QUEEN);
+            chessItems[lastIndexRow][lastIndexCol]=item;
             placeItem(item, toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
         }
         else if(x==3){
             ChessItem item=new ChessItem(chessItems[lastIndexRow][lastIndexCol].color,ChessItem.CHESS_ITEM.BISHOP);
+            chessItems[lastIndexRow][lastIndexCol]=item;
             placeItem(item, toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
         }
         else if(x==4){
             ChessItem item=new ChessItem(chessItems[lastIndexRow][lastIndexCol].color,ChessItem.CHESS_ITEM.KNIGHT);
+            chessItems[lastIndexRow][lastIndexCol]=item;
             placeItem(item, toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
         }
         itemcolor[fromX][fromY]=-1;//Jeheto ei jayga ta khali hoia jabe tai value -1 korlam
