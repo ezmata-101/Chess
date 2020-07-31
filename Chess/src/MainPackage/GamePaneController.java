@@ -1,6 +1,7 @@
 package MainPackage;
 
 import javafx.animation.RotateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Menu;
@@ -51,6 +52,14 @@ public class GamePaneController implements Initializable {
         }
         game.showMenu();
     }
+    public void onCloseMenuItem(ActionEvent actionEvent) {
+        if(game == null){
+            System.out.println("Returning...");
+            return;
+        }
+        game.hideMenu();
+    }
+
     public void setGame(Game game){
         this.game = game;
     }

@@ -88,9 +88,13 @@ public class Game {
                 player1.controlGame("GAME/LOST/"+player1.getName()+"/ ");
                 player2.controlGame("GAME/WON/"+player2.getName()+"/ ");
                 //player2.sendToClient("Off_the_game_pane/");
+                player2.sendToClient("GAME_CLOSE/WON");
+                player1.sendToClient("GAME_CLOSE/LOST");
             }else{
                 player2.controlGame("GAME/LOST/"+player2.getName()+"/ ");
                 player1.controlGame("GAME/WON/"+player1.getName()+"/ ");
+                player1.sendToClient("GAME_CLOSE/WON");
+                player2.sendToClient("GAME_CLOSE/LOST");
             }
             player1.setInGame(false);
             player2.setInGame(false);

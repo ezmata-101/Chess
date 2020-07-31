@@ -1,2 +1,5 @@
 /.rawResource
 /Chess/out
+/Chess/.idea
+/ChessServer/out
+/ChessServer/.idea

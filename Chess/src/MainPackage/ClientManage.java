@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ClientManage implements Runnable{
+public class ClientManage implements Runnable {
 
     Socket socket;
     DataInputStream dis;
@@ -22,13 +22,13 @@ public class ClientManage implements Runnable{
     String name;
     String address;
 
-    ClientManage(String address){
-        this.address=address;
+    ClientManage(String address) {
+        this.address = address;
     }
 
-    public boolean start(){
-        try{
-            socket =  new Socket(address, 5000);
+    public boolean start() {
+        try {
+            socket = new Socket(address, 5000);
             dis = new DataInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
 //            ClientThread thread=new ClientThread(dis);
@@ -37,7 +37,7 @@ public class ClientManage implements Runnable{
             t = new Thread(this, "Client Manage");
             t.start();
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Failed to connect to the Server!");
             e.printStackTrace();
             return false;
@@ -45,22 +45,23 @@ public class ClientManage implements Runnable{
     }
 
     public boolean stop() {
-        try{
+        try {
             dos.close();
             dis.close();
             socket.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Failed to Close Client Thread!");
             e.printStackTrace();
             return false;
         }
         return true;
     }
-    public void setStage(Stage stage){
-        this.stage=stage;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
-    public boolean sendToServer(String message){
+    public boolean sendToServer(String message) {
         try {
             dos.writeUTF(message);
             return true;
@@ -72,10 +73,10 @@ public class ClientManage implements Runnable{
 
     @Override
     public void run() {
-        while(true){
+        while (true) {
             try {
-                String msg=dis.readUTF();
-                System.out.println("Message received: "+msg);
+                String msg = dis.readUTF();
+                System.out.println("Message received: " + msg);
                 handleMessage(msg);
             } catch (IOException e) {
                 System.out.println("Server Closed!");
@@ -83,8 +84,9 @@ public class ClientManage implements Runnable{
             }
         }
     }
+
     private void handleMessage(String message) {
-        String[] strings=message.split("/");
+        String[] strings = message.split("/");
         switch (strings[0]) {
             case "signin":
                 if (strings[1].equals("successfull")) {
@@ -124,7 +126,7 @@ public class ClientManage implements Runnable{
                 }
                 break;
             case "GAME":
-                if(strings[3].equals(name)) return;
+                if (strings[3].equals(name)) return;
                 Platform.runLater(() -> {
                     try {
                         //game.selectItem(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]));
@@ -138,25 +140,29 @@ public class ClientManage implements Runnable{
 
     private void initGame() {
         Platform.runLater(
-            ()->{
-                stage.close();
-                game = new Game(this);
-                game.init();
-            }
+                () -> {
+                    stage.close();
+                    game = new Game(this);
+                    game.init();
+                }
         );
     }
-    private void createAlert(String message){
+
+    private void createAlert(String message) {
         Platform.runLater(() -> {
             Alert a = new Alert(Alert.AlertType.WARNING);
             a.setContentText(message);
             a.show();
         });
     }
+
     GamePaneController gamePaneController;
+
     public void setGamePaneController() {
         this.gamePaneController = gamePaneController;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
     }
 }

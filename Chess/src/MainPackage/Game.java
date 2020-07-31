@@ -163,7 +163,7 @@ public class Game {
     }
     public void showMenu(){
         if(createGamePane.isVisible()) hidePane(createGamePane, 90);
-        if(joinGamePane.isVisible()) hidePane(createGamePane, 90);
+        if(joinGamePane.isVisible()) hidePane(joinGamePane, 90);
         System.out.println("Called!");
         TranslateTransition tt = new TranslateTransition(Duration.millis(750));
         tt.setFromX(20);
@@ -448,5 +448,9 @@ public class Game {
 
     public void moveItem(int fromX, int fromY, int toX, int toY, int x){
         chessBoard.createMovement(fromX, fromY, toX, toY, x, false);
+    }
+
+    public void hideMenu() {
+        hidePane(menuPane, 300);
     }
 }

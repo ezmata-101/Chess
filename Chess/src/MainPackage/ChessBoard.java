@@ -760,7 +760,10 @@ public class ChessBoard {
     private void doRotate(Node node, int time){
         RotateTransition rt = new RotateTransition();
         rt.setAxis(Rotate.Z_AXIS);
-        rt.setByAngle(180);
+        //System.out.println(isRotated);
+        if(isRotated)rt.setByAngle(-180);
+        else rt.setByAngle(180);
+        //rt.setByAngle(180);
         rt.setCycleCount(1);
         rt.setDuration(Duration.millis(time));
         rt.setAutoReverse(false);
