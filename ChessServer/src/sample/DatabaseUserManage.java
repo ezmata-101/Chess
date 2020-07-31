@@ -21,11 +21,15 @@ public class DatabaseUserManage {
     private static final String Update_User_Lost_Game = "UPDATE "+USER_INFO_TABLE+
             " SET "+Lose_COLUMN+" = ? "+
             " WHERE "+NAME_COLUMN+" = ?";
+    private static final String Update_User_Total_match = "UPDATE "+USER_INFO_TABLE+
+            " SET "+Total_Match__COLUMN+" = ? "+
+            " WHERE "+NAME_COLUMN+" = ?";
     private static final String Update_User_Win_Game = "UPDATE "+USER_INFO_TABLE+
             " SET "+Win_COLUMN+" = ? "+
             " WHERE "+NAME_COLUMN+" = ?";
     private static final String Get_Win_By_Name = "SELECT "+Win_COLUMN+" FROM "+USER_INFO_TABLE+" WHERE "+NAME_COLUMN+" = ?";
     private static final String Get_Lose_By_Name = "SELECT "+Lose_COLUMN+" FROM "+USER_INFO_TABLE+" WHERE "+NAME_COLUMN+" = ?";
+    private static final String Get_Total_Match_By_Name = "SELECT "+Total_Match__COLUMN+" FROM "+USER_INFO_TABLE+" WHERE "+NAME_COLUMN+" = ?";
 
     private static final String Insert_New_User = "INSERT INTO "+USER_INFO_TABLE+" ( " +
             NAME_COLUMN+", "+PASSWORD_COLUMN+", "+Total_Match__COLUMN+", "+Win_COLUMN +", "+Lose_COLUMN+", "+Points_COLUMN+") VALUES (?, ?, ?, ?, ?, ?)";
@@ -126,10 +130,22 @@ public class DatabaseUserManage {
         }
         return 0;
     }
-    public boolean updateWinForName(int id, String name){
+    public int getTotalMatchByName(String name){
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Get_Total_Match_By_Name);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int count = resultSet.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            System.out.println("Can't return lose game for the user...\n"+e.getMessage());
+        }
+        return 0;
+    }
+    public boolean updateWinForName(int win, String name){
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(Update_User_Win_Game);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, win);
             preparedStatement.setString(2, name);
             int affectedRows = preparedStatement.executeUpdate();
             return (affectedRows == 1)? true : false;
@@ -138,10 +154,22 @@ public class DatabaseUserManage {
             return false;
         }
     }
-    public boolean updateLoseForName(int id, String name){
+    public boolean updateLoseForName(int lost, String name){
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(Update_User_Lost_Game);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, lost);
+            preparedStatement.setString(2, name);
+            int affectedRows = preparedStatement.executeUpdate();
+            return (affectedRows == 1)? true : false;
+        }catch (Exception e){
+            System.out.println("Failed to update name...\n"+e.getMessage() );
+            return false;
+        }
+    }
+    public boolean updateTotalMatchForName(int total_match, String name){
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(Update_User_Total_match);
+            preparedStatement.setInt(1, total_match);
             preparedStatement.setString(2, name);
             int affectedRows = preparedStatement.executeUpdate();
             return (affectedRows == 1)? true : false;

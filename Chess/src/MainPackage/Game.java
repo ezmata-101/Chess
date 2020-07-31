@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -22,6 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static MainPackage.ChessBoard.ONLINE_MATCH;
+
 public class Game {
     private Pane chessBoardPane = new Pane();
     private AnchorPane anchorPane;
@@ -36,6 +39,7 @@ public class Game {
     HBox bottomBox;
     TextField codeField;
     Text joinGameNotification;
+    Alert a = new Alert(Alert.AlertType.NONE);
     /*Game(DatabaseUserManage ds){
         this.ds = ds;
     }*/
@@ -88,6 +92,15 @@ public class Game {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
+                if(chessBoard.mode==ONLINE_MATCH){
+                    Platform.runLater(()->{
+                        a.setAlertType(Alert.AlertType.INFORMATION);
+                        String name=client.name;
+                        a.setContentText(name+" Lost the Match.");
+                        a.show();
+                    });
+                }
+                client.stop();
                 Platform.exit();
                 System.exit(0);
             }
@@ -413,7 +426,7 @@ public class Game {
 
     public void createNewGame(boolean white, int turn, int playerNum) {
         chessBoard = new ChessBoard(client);
-        chessBoard.setMode(ChessBoard.ONLINE_MATCH);
+        chessBoard.setMode(ONLINE_MATCH);
         chessBoardPane = chessBoard.createMainPane();
         mainPane.setCenter(chessBoardPane);
 

@@ -44,7 +44,7 @@ public class ClientManage implements Runnable{
         }
     }
 
-    private boolean stop() {
+    public boolean stop() {
         try{
             dos.close();
             dis.close();

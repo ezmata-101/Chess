@@ -20,6 +20,8 @@ public class Game {
         isOccurring = true;
         player1.setInGame(true);
         player2.setInGame(true);
+        player1.updateTotalMatch(player1.getName());
+        player2.updateTotalMatch(player2.getName());
         player1.setGame(this);
         player2.setGame(this);
     }
@@ -81,12 +83,17 @@ public class Game {
     }
 
     public void dismiss(Client client) {
-        if(client.getName() == player1.getName()){
-            player1.controlGame("GAME/LOST/"+player1.getName()+"/ ");
-            player2.controlGame("GAME/WON"+player2.getName()+"/ ");
-        }else{
-            player2.controlGame("GAME/LOST/"+player2.getName()+"/ ");
-            player1.controlGame("GAME/WON/"+player1.getName()+"/ ");
+        if(isOccurring && player1.isInGame() && player2.isInGame()){
+            if(client.getName() == player1.getName()){
+                player1.controlGame("GAME/LOST/"+player1.getName()+"/ ");
+                player2.controlGame("GAME/WON/"+player2.getName()+"/ ");
+                //player2.sendToClient("Off_the_game_pane/");
+            }else{
+                player2.controlGame("GAME/LOST/"+player2.getName()+"/ ");
+                player1.controlGame("GAME/WON/"+player1.getName()+"/ ");
+            }
+            player1.setInGame(false);
+            player2.setInGame(false);
         }
         isOccurring = false;
     }

@@ -53,6 +53,51 @@ public class MessageHandler {
         }
         return 0;
     }
+    public void handleWinLose(String message){
+        String[] strings=message.split("/");
+        if(strings[1].equals("LOST")){
+            if(ds.getUserByName(strings[2])){
+                int lost=ds.getLoseByName(strings[2]);
+                if(ds.updateLoseForName(lost+1,strings[2])){
+                    System.out.println("Lost game updated for "+strings[2]);
+                }
+                else {
+                    System.out.println("Can't update lost game for "+strings[2]);
+                }
+            }
+            else{
+                System.out.println("Can't find the player named : "+strings[2] +" for changing lose.");
+            }
+        }
+        else if(strings[1].equals("WON")){
+            if(ds.getUserByName(strings[2])){
+                int win=ds.getWinByName(strings[2]);
+                if(ds.updateWinForName(win+1,strings[2])){
+                    System.out.println("Win game updated for "+strings[2]);
+                }
+                else {
+                    System.out.println("Can't update win game for "+strings[2]);
+                }
+            }
+            else{
+                System.out.println("Can't find the player named : "+strings[2] +" for changing win.");
+            }
+        }
+    }
+    public void handleTotalMatch(String name){
+        if(ds.getUserByName(name)){
+            int total_match=ds.getTotalMatchByName(name);
+            if(ds.updateTotalMatchForName(total_match+1,name)){
+                System.out.println("Successfully updated total match for : " + name);
+            }
+            else{
+                System.out.println("Can't update total match for: "+name);
+            }
+        }
+        else{
+            System.out.println("Can't find : "+name +" for updating total match.");
+        }
+    }
     public boolean isOnline(String name){
         for(int i=0; i<clients.size(); i++){
             if(name.equals(clients.get(i).getName())){

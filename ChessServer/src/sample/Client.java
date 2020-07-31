@@ -18,6 +18,7 @@ public class Client {
         thread.sendToClient(message);
     }
     public void controlGame(String message){ thread.gameControl(message);}
+    public void updateTotalMatch(String name){ thread.updateRequest(name);}
 
     public ServerThread getThread() {
         return thread;

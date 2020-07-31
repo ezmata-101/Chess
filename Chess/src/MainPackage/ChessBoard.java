@@ -52,7 +52,7 @@ public class ChessBoard {
     public boolean isBlackRookMoved2=false;
     public static final boolean OFFLINE_PRACTICE = true;
     public static final boolean ONLINE_MATCH = false;
-    private boolean mode;
+    public boolean mode;
     private Controller controller;
     private boolean isRotated = false;
 
@@ -667,15 +667,17 @@ public class ChessBoard {
 
         if(checkmate1.checkingCheckMate()){
             if(isBlackKingChecked){
-                a.setAlertType(Alert.AlertType.WARNING);
-                a.setContentText("Black KIng checkmate");
+                a.setAlertType(AlertType.INFORMATION);
+                //a.setContentText("Black KIng checkmate");
+                a.setContentText("White King Player Wins");
                 a.show();
                 isBlackKingChecked=false;
                 //sendToMessage("Checkmate/Black");
             }
             else if(isWhiteKingChecked){
-                a.setAlertType(Alert.AlertType.WARNING);
-                a.setContentText("White king checkmate");
+                a.setAlertType(AlertType.INFORMATION);
+                //a.setContentText("White king checkmate");
+                a.setContentText("Black King Player Wins");
                 a.show();
                 isWhiteKingChecked=false;
                 //sendToMessage("Checkmate/White");

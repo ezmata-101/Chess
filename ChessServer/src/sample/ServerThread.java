@@ -80,6 +80,7 @@ public class ServerThread implements Runnable{
             }
         } catch (IOException e) {
             System.out.println("Player Left!");
+            handler.leaveGame(client);
             if(client != null){
                 client.setOnline(false);
                 client.setInGame(false);
@@ -96,11 +97,10 @@ public class ServerThread implements Runnable{
     }
 
     public void gameControl(String message){
-        /*String[] strings=message.split("/");
-        if(strings[1].equals("LOST")){
-
-        }*/
-        /** Update and Get  er Shob function database e lekha hoise.Just kaj kora baki.Messagehandler er sahajje game jita hara control korte hbe**/
+        handler.handleWinLose(message);
+    }
+    public void updateRequest(String name){
+        handler.handleTotalMatch(name);
     }
 
     public void sendToClient(String message) {
