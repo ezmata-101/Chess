@@ -21,8 +21,8 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="loginName" layoutX="237.0" layoutY="71.0" prefHeight="42.0" prefWidth="247.0" />
-            <PasswordField fx:id="loginPass" layoutX="237.0" layoutY="129.0" prefHeight="42.0" prefWidth="247.0" />
+            <TextField fx:id="loginName" promptText="User Name" layoutX="237.0" layoutY="71.0" prefHeight="42.0" prefWidth="247.0" />
+            <PasswordField fx:id="loginPass" promptText="Password" layoutX="237.0" layoutY="129.0" prefHeight="42.0" prefWidth="247.0" />
             <Button fx:id="loginButton" layoutX="361.0" layoutY="214.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="42.0" prefWidth="113.0" text="Log In">
                <font>
                   <Font name="System Bold" size="21.0" />
@@ -43,8 +43,8 @@
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="signInName" layoutX="237.0" layoutY="71.0" prefHeight="42.0" prefWidth="247.0" />
-            <PasswordField fx:id="signInPass" layoutX="237.0" layoutY="129.0" prefHeight="42.0" prefWidth="247.0" />
+            <TextField fx:id="signInName" promptText="User Name" layoutX="237.0" layoutY="71.0" prefHeight="42.0" prefWidth="247.0" />
+            <PasswordField fx:id="signInPass" promptText="Password" layoutX="237.0" layoutY="129.0" prefHeight="42.0" prefWidth="247.0" />
             <Button fx:id="signInButton" layoutX="361.0" layoutY="214.0" mnemonicParsing="false" onAction="#onSignIn" prefHeight="42.0" prefWidth="113.0" text="Sign In">
                <font>
                   <Font name="System Bold" size="21.0" />

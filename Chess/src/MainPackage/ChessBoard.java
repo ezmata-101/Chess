@@ -61,6 +61,7 @@ public class ChessBoard {
     private static final boolean WHITE = true;
     private static final boolean BLACK = false;
     private boolean notOk = true;
+    private boolean itemSelected = false;
 
 
     public ChessBoard(){}
@@ -169,10 +170,17 @@ public class ChessBoard {
         placeItem(chessItems[indexRow][indexCol], posRow, posCol, indexRow, indexCol,itemtype);
     }
 
-    public void onStackPaneSelected(int i, int j, boolean offlineMove){
+    //Inefficient we know :(
+    private void clearPossibleMoveColors(){
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                removeColor(i, j);
+            }
+        }
+    }
 
-        //printBoard();
-        //if(mode == ONLINE_MATCH && offlineMove) sendToMessage("GAME/"+i+"/"+j+"/"+client.getName());
+    public void onStackPaneSelected(int i, int j, boolean offlineMove){
+        clearPossibleMoveColors();
         if((lastX != -1 && lastY != -1) || (lastX == i && lastY == j) || lastMove){
             if(lastMovedItem != null) colorPossibleMoves(lastMovedItem, false);
             removeColor(lastX, lastY);
@@ -184,24 +192,10 @@ public class ChessBoard {
             lastX = -1;
             return;
         }
-        if(mode == ONLINE_MATCH && notOk){
-            ChessItem ci = getChessItemFromPos(i, j);
-            if(ci!=null){
-                int c = ci.getColor();
-                if(PLAYER_COLOR == WHITE && c == ChessItem.BLACK){
-                    System.out.println("Returning ..."+PLAYER_COLOR +" "+ (c==1?"WHITE":"BLACK"));
-                    return;
-                }
-                if(PLAYER_COLOR == BLACK && c == ChessItem.WHITE){
-                    System.out.println("Returning ..."+PLAYER_COLOR +" "+ (c==1?"WHITE":"BLACK"));
-                    return;
-                }
-            }
-        }
         if(isSelected){
             //moveItem(lastX, lastY, i, j);
             ChessItem item=chessItems[lastIndexRow][lastIndexCol];//Jei element ta selected hoilo oita item e rakhlam
-            int x=item.getPosX();//Item tar x,y,coordinate store korlam
+            int x=item.getPosX(); //Item tar x,y,coordinate store korlam
             int y=item.getPosY();
     //        System.out.println(x+ " "+ y +" " +item.color+ " "+ i + " "+ j);
 
@@ -440,6 +434,7 @@ public class ChessBoard {
     }
 
     private void colorPossibleMoves(ChessItem ci, boolean colorOrDiscolor) {
+        if(colorOrDiscolor) itemSelected = true;
         if(!colorOrDiscolor)notOk = true;
         int posX = ci.getPosX();
         int posY = ci.getPosY();
@@ -601,11 +596,20 @@ public class ChessBoard {
     }
 
     public void moveItem(int fromX, int fromY, int toX, int toY,int x, boolean offlineMove) {
-        System.out.println(fromX + " " + fromY + " " + toX + " " + toY + " " + x + " " + offlineMove);
+//        System.out.println(fromX + " " + fromY + " " + toX + " " + toY + " " + x + " " + offlineMove);
+        if(mode == ONLINE_MATCH && offlineMove){
+            int ciColor = getChessItemFromPos(fromX, fromY).color;
+            boolean flag = (PLAYER_COLOR == WHITE && ciColor == ChessItem.BLACK)
+                        || (PLAYER_COLOR == BLACK && ciColor == ChessItem.WHITE);
+            if(flag){
+                clearPossibleMoveColors();
+                return;
+            }
+            sendToMessage("GAME/"+fromX+"/"+fromY+"/"+toX+"/"+toY+"/"+x);
+        }
         panes[fromX][fromY].getChildren().clear();
         labels[fromX][fromY].setText("-1,-1");
         chessItems[lastIndexRow][lastIndexCol].setEverMoved(true);
-        if(mode == ONLINE_MATCH && offlineMove) sendToMessage("GAME/"+fromX+"/"+fromY+"/"+toX+"/"+toY+"/"+x);
         if(x==0){
             placeItem(chessItems[lastIndexRow][lastIndexCol], toX, toY, lastIndexRow, lastIndexCol,itemtype[fromX][fromY]);
 //            client.sendToServer("GAME/"+fromX+"/"+fromY+"/"+toX+"/"+toY+"/"+x);

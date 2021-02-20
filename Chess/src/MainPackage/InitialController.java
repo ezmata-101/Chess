@@ -39,10 +39,6 @@ public class InitialController implements Initializable {
         signInPane.setVisible(false);
         signInPane.setDisable(true);
 //        signInPane.setLayoutX(-signInPane.getWidth());
-        signInName.setPromptText("User Name");
-        loginName.setPromptText("User Name");
-        loginPass.setPromptText("Password");
-        signInPass.setPromptText("Password");
 
         gotoSignInText.setStyle("-fx-text-fill: crimson;"+
                 "-fx-font-size: 16;"+

@@ -76,7 +76,7 @@ public class ClientManage implements Runnable {
         while (true) {
             try {
                 String msg = dis.readUTF();
-                System.out.println("Message received: " + msg);
+//                System.out.println("Message received: " + msg);
                 handleMessage(msg);
             } catch (IOException e) {
                 System.out.println("Server Closed!");

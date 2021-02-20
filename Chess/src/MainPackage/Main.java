@@ -4,20 +4,16 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class Main extends Application {
-    String socket;
+    String address;
     @Override
     public void start(Stage primaryStage) throws Exception{
         ClientNetwork clientNetwork=new ClientNetwork();
         if(clientNetwork.init()){
-            this.socket=clientNetwork.address;
+            this.address =clientNetwork.address;
         }
         else{
             System.out.println("Can't connect to DatagramSocket.");
@@ -27,7 +23,7 @@ public class Main extends Application {
 //        Parent root = FXMLLoader.load(getClass().getResource("/FXMLS/main.fxml"));
         Parent root = loader.load();
         InitialController controller = loader.getController();
-        ClientManage client = new ClientManage(socket);
+        ClientManage client = new ClientManage(address);
         if(client.start()){
             System.out.println("Client Manager Started Successfully");
         }else {
