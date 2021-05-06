@@ -110,11 +110,16 @@ public class MessageHandler {
 
 
     public void addClient(String name, ServerThread thread) {
+        if(name.equals("GUEST")){
+            name = name + "_" + clients.size();
+            thread.sendToClient("login/successful/"+name);
+        }
         Client c = new Client(thread, name);
         c.setOnline(true);
         c.setInGame(false);
         c.setIndex(clients.size());
         clients.add(c);
+
     }
 
     public void createNewGame(Client client, String color){

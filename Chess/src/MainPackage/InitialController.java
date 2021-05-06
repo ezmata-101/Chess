@@ -131,4 +131,8 @@ public class InitialController implements Initializable {
     public void setClient(ClientManage client){
         this.client = client;
     }
+
+    public void joinAsAGuest(ActionEvent actionEvent) {
+        client.sendToServer("guest_login");
+    }
 }

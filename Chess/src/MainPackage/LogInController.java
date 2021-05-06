@@ -75,4 +75,8 @@ public class LogInController implements Initializable {
     public void moveToSignUp(MouseEvent mouseEvent) {
         System.out.println("Move to Sign Up!");
     }
+
+    public void loginAsGuest(ActionEvent actionEvent) throws IOException {
+        client.dos.writeUTF("guest_login");
+    }
 }
