@@ -100,4 +100,11 @@ public class PawnOppositeController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void setEverything(ChessBoard chessBoard, int i, int j, int color) {
+        setChessBoard(chessBoard);
+        settoX(i);
+        setToY(j);
+        createImageOfPieces(color);
+    }
 }

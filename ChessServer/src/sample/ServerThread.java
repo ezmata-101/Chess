@@ -110,7 +110,7 @@ public class ServerThread implements Runnable{
             dos.writeUTF(message);
             System.out.println("Sent: "+message);
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 

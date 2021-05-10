@@ -21,12 +21,12 @@ public class ChessItem {
         CHESS_ITEM(String fileName) {
             this.fileName = fileName;
         }
-        public String getFileName(){
+        public String getItemType(){
             return fileName;
         }
     }
     private ImageView imageView;
-    private int posX, posY;
+    private int posX, posY, rowIndex, columnIndex;
     public int color;
     private boolean everMoved;
 
@@ -39,13 +39,25 @@ public class ChessItem {
         createImageView();
     }
 
-    public ChessItem(int color, CHESS_ITEM type, int row, int col){
+    public ChessItem(int color, CHESS_ITEM type, int rowIndex, int colIndex){
         this.color = color;
         this.type = type;
-        posX = row;
-        posY = col;
+        this.rowIndex = rowIndex;
+        this.columnIndex = colIndex;
         everMoved = false;
         createImageView();
+    }
+
+    public int getRowIndex() {
+        return rowIndex;
+    }
+
+    public int getColumnIndex() {
+        return columnIndex;
+    }
+
+    public boolean isType(String type){
+        return this.type.getItemType().equals(type);
     }
     public void setPosition(int row, int column){
         posY = column;
@@ -63,7 +75,7 @@ public class ChessItem {
         String filePath = SOURCE_PATH;
         if(color == BLACK) filePath+="Black\\";
         if(color == WHITE) filePath+="White\\";
-        filePath+=type.getFileName()+".png";
+        filePath+=type.getItemType()+".png";
         Image image;
         try{
             image = new Image(new FileInputStream(filePath));
@@ -117,5 +129,12 @@ public class ChessItem {
         return color;
     }
 
-
+    @Override
+    public String toString() {
+        return "ChessItem{" +
+                "color:"+color+
+                "type:" + type.getItemType() +
+                "position("+getPosX()+", "+getPosY()+")"+
+                '}';
+    }
 }

@@ -1,7 +1,5 @@
 package MainPackage;
 
-import javafx.scene.layout.Pane;
-
 public class Checkmate {
     private ChessBoard board;
     private int color;
@@ -51,7 +49,7 @@ public class Checkmate {
     private void checkPossibleMoves(ChessItem ci) {
         int posX = ci.getPosX();
         int posY = ci.getPosY();
-        String type = ci.getType().getFileName();
+        String type = ci.getType().getItemType();
         if(type.equals("knight")){
             int ara1[] = {1,1,2,2,-1,-1,-2,-2};
             int ara2[] = {2, -2, 1, -1};
@@ -145,7 +143,7 @@ public class Checkmate {
         }
         else if(ci.getColor() != board.chessItems[inToX][inToY].getColor()){
             //System.out.println("Attack point e ase " +board.chessItems[inToX][inToY].getType());
-            if(board.chessItems[inToX][inToY].type.getFileName().equals("king")){
+            if(board.chessItems[inToX][inToY].type.getItemType().equals("king")){
                 //System.out.println("Eikhane ashche");
                 count++;
             }
