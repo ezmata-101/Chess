@@ -135,6 +135,15 @@ public class ClientManage implements Runnable {
                         e.printStackTrace();
                     }
                 });
+                break;
+            case "turnMove":
+                Platform.runLater(() -> {
+                    try{
+                        game.turnMove(Boolean.parseBoolean(strings[1]));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
         }
     }
 

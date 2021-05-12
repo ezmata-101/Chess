@@ -339,20 +339,19 @@ public class ChessBoard {
         if(!doCastle) return true;
 //        System.out.println("Everything passed");
 
-        moveItem(fromX, fromY, toX, toY,0, false);
+        moveItem(fromX, fromY, toX, toY,0, true);
+
         lastIndexRow = rookIndX;
         lastIndexCol = rookIndY;
         lastX = rook.getPosX();
         lastY = rook.getPosY();
         if(pls>0){
-            moveItem(fromX, 7, fromX, 5,0, false);
+            moveItem(fromX, 7, fromX, 5,0, true);
         }
         else{
-            moveItem(fromX, 0, fromX, 3,0, false);
+            moveItem(fromX, 0, fromX, 3,0, true);
         }
-
-        isWhiteTurn = king.getColor() != ChessItem.WHITE;
-        isBlackTurn = king.getColor() == ChessItem.WHITE;
+        rotateTurn(king.getColor() == ChessItem.WHITE, true);
 //        if(king.getColor() == ChessItem.WHITE){
 //            isWhiteTurn = false;
 //            isBlackTurn = true;
@@ -362,6 +361,13 @@ public class ChessBoard {
 //        }
 
         return true;
+    }
+
+    public void rotateTurn(boolean whiteTurn, boolean sendToServer) {
+        isWhiteTurn = !whiteTurn;
+        isBlackTurn = whiteTurn;
+        System.out.println("isWhiteTurn: "+whiteTurn);
+        if(mode == ONLINE_MATCH && sendToServer)sendToMessage("turnMove/"+whiteTurn);
     }
 
     private void colorPossibleMoves(ChessItem ci, boolean colorOrDiscolor) {
@@ -617,7 +623,6 @@ public class ChessBoard {
 //        }
         isWhiteTurn = !isWhiteTurn;
         isBlackTurn = !isBlackTurn;
-
         if(mode == OFFLINE_PRACTICE) doARotation(750);
 
 //        System.out.println("Eikhane chilo: "+tempLastItem);
@@ -628,14 +633,14 @@ public class ChessBoard {
 //                }
 //            }
 //        }
-//        printBoard();
+        printBoard();
     }
 
     private void deleteItemFrom(int toX, int toY) {
         ChessItem ci = getChessItemFromPos(toX, toY);
         if(ci != null){
             System.out.println("Deleted: "+ci);
-            chessItems[ci.getRowIndex()][ci.getColumnIndex()] = null;
+//            chessItems[ci.getRowIndex()][ci.getColumnIndex()] = null;
         }
     }
 
@@ -673,9 +678,7 @@ public class ChessBoard {
         if((i+j)%2 == 0) panes[i][j].setStyle(COLOR.WHITE_SQUARE.setColor());
         else panes[i][j].setStyle(COLOR.BLACK_SQUARE.setColor());
     }
-    private void checkCheck(){
 
-    }
     public void doARotation(int timeInMillis) {
         isRotated = !isRotated;
         doRotate(mainPane, timeInMillis);

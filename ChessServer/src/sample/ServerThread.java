@@ -78,6 +78,8 @@ public class ServerThread implements Runnable{
                     client.gameMovement(msg);
                 }else if(strings[0].equals("guest_login")){
                     handler.addClient("GUEST", this);
+                }else if(strings[0].equals("turnMove")){
+                    client.gameMovement(msg);
                 }
             }
         } catch (IOException e) {

@@ -132,9 +132,10 @@ public class ChessItem {
     @Override
     public String toString() {
         return "ChessItem{" +
-                "color:"+color+
-                "type:" + type.getItemType() +
-                "position("+getPosX()+", "+getPosY()+")"+
+                "color:"+(color==1?"White":"Black")+
+                " type:" + type.getItemType() +
+                " index("+getRowIndex()+", "+getColumnIndex()+")"+
+                " position("+getPosX()+", "+getPosY()+")"+
                 '}';
     }
 }

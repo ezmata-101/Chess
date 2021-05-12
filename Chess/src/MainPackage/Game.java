@@ -453,4 +453,8 @@ public class Game {
     public void hideMenu() {
         hidePane(menuPane, 300);
     }
+
+    public void turnMove(boolean whiteTurn) {
+        chessBoard.rotateTurn(whiteTurn, false);
+    }
 }
